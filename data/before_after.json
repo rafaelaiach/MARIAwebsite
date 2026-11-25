@@ -1,0 +1,29 @@
+[
+ {
+  "key": "lacretelle-cuisine",
+  "slug": "paris-15-rue-lacretelle",
+  "place": "Rue Lacretelle, Paris 15e",
+  "caption": "La cuisine",
+  "w": 895,
+  "h": 1226,
+  "aligned": true
+ },
+ {
+  "key": "stalingrad-sejour",
+  "slug": "colombes-rue-de-stalingrad",
+  "place": "Rue de Stalingrad, Colombes",
+  "caption": "Le séjour vu de l'entrée",
+  "w": 760,
+  "h": 1334,
+  "aligned": true
+ },
+ {
+  "key": "kremlin-sdb",
+  "slug": "kremlin-bicetre-avenue-de-fontainebleau",
+  "place": "Le Kremlin-Bicêtre",
+  "caption": "La salle de bains",
+  "w": 831,
+  "h": 1118,
+  "aligned": true
+ }
+]

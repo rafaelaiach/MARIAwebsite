@@ -440,3 +440,41 @@ body.lb-open { overflow: hidden; }
 .foot-proof-count { font-size: 13px; color: var(--muted); }
 .foot-proof-text { font: 400 1.25rem/1.3 var(--serif); margin-top: 8px; }
 .foot-proof-link { font-size: 13.5px; font-weight: 500; margin-top: 8px; }
+
+/* before/after: 4 apartments, one slider */
+.ba-tabs { display: flex; flex-direction: column; gap: 2px; margin-top: 28px; width: 100%; max-width: 380px; border-top: 1px solid var(--line); }
+.ba-tab { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 0 14px 16px; text-align: left; border-bottom: 1px solid var(--line); position: relative; transition: padding .4s var(--ease); }
+.ba-tab::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 2px; background: var(--bronze); transform: scaleY(0); transition: transform .4s var(--ease); }
+.ba-tab:hover { padding-left: 22px; }
+.ba-tab.is-on { padding-left: 22px; }
+.ba-tab.is-on::before { transform: scaleY(1); }
+.ba-tab-place { font: 500 1.25rem/1.2 var(--serif); }
+.ba-tab-cap { font-size: 13px; color: var(--muted); }
+.ba-tab:not(.is-on) .ba-tab-place { color: var(--ink-2); }
+.ba .ba-link { margin-top: 24px; }
+.ba-frame { transition: aspect-ratio .5s var(--ease), width .5s var(--ease); }
+.ba-frame .ba-img { transition: opacity .35s; }
+.ba-frame.is-swapping .ba-img { opacity: 0; }
+@media (min-width: 901px) {
+  .ba { grid-template-rows: auto; }
+  .ba .section-head { margin-top: 6vh; }
+  .ba .ba-frame { grid-row: 1; }
+}
+@media (max-width: 900px) {
+  .ba-tabs { flex-direction: row; overflow-x: auto; max-width: none; border-top: 0; gap: 8px; padding-bottom: 4px; scrollbar-width: none; }
+  .ba-tabs::-webkit-scrollbar { display: none; }
+  .ba-tab { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; }
+  .ba-tab::before { display: none; }
+  .ba-tab:hover, .ba-tab.is-on { padding-left: 16px; }
+  .ba-tab.is-on { background: var(--ink); border-color: var(--ink); }
+  .ba-tab.is-on .ba-tab-place, .ba-tab.is-on .ba-tab-cap { color: var(--paper); }
+  .ba-tab-place { font-size: 1rem; }
+  .ba-tab-cap { font-size: 11.5px; }
+}
+
+/* phones: a slightly shorter slideshow keeps more of each (wide) photo */
+@media (max-width: 640px) {
+  .hero { height: 82svh; min-height: 520px; }
+  .hero-text { bottom: 96px; }
+  .hero-title { font-size: clamp(2.6rem, 11vw, 3.4rem); }
+}

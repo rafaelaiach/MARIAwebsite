@@ -34,7 +34,7 @@ SIRET = "888 747 920 000 13"
 # kind: complete | partial | studio | plans
 PROJECTS = [
     # order shown on the site: the most beautiful first, Le Parc de Redoute (plans only) last
-    dict(slug="paris-7-rue-oudinot", key="1er-projet", name="Rue Oudinot",
+    dict(slug="paris-7-rue-oudinot", key="1er-projet", focus="72% 50%", name="Rue Oudinot",
          place="Paris 7e", surface="139 m²", year="2020", duration="3 mois", kind="complete", cover=1,
          summary="Rénovation d'un appartement de cinq pièces, parquet massif d'origine conservé."),
     dict(slug="vanves-allee-du-progres", key="copie-de-rue-ledion-75014", name="Allée du Progrès",
@@ -53,7 +53,7 @@ PROJECTS = [
          place="Paris 15e", surface="78 m²", year="2013", duration="3 mois", kind="complete", cover=0,
          summary="Deux appartements réunis en un, et des portes coulissantes en métal découpées au laser."),
     dict(slug="colombes-rue-de-stalingrad", key="copie-de-rue-cotentin-75015", name="Rue de Stalingrad",
-         place="Colombes", surface="76 m²", year="2020", duration="2 mois et demi", kind="complete", cover=12,
+         place="Colombes", surface="76 m²", year="2020", duration="2 mois et demi", kind="complete", cover=10,
          summary="Un quatre pièces devient un cinq pièces pour une colocation de quatre personnes."),
     dict(slug="paris-16-avenue-de-versailles", key="5e-projet", name="Avenue de Versailles",
          place="Paris 16e", surface="58 m²", year="2019", duration="3 mois", kind="partial", cover=4,
@@ -121,11 +121,11 @@ REVIEW_SUMMARY = ("Ses clients saluent un suivi de chantier rigoureux, des déla
                   "et des solutions ingénieuses pour tirer parti de chaque mètre carré. "
                   "Plusieurs lui ont confié leur rénovation depuis l'étranger, en toute sérénité.")
 
-HERO = [  # (project slug, item index) : the opening slideshow.
+HERO = [  # (project slug, item index, focal point on phones) : the opening slideshow.
     # Chosen only on how attractive the photo is full screen: light, space, finishes.
     # Rue Oudinot's large living room always first (asked by Raf on 2026-11-25).
-    ("paris-7-rue-oudinot", 1), ("paris-14-rue-ledion", 3), ("vanves-allee-du-progres", 15),
-    ("paris-7-rue-oudinot", 2), ("vanves-allee-du-progres", 12),
+    ("paris-7-rue-oudinot", 1, "74% 50%"), ("paris-14-rue-ledion", 3, "42% 55%"), ("vanves-allee-du-progres", 15, "30% 45%"),
+    ("paris-7-rue-oudinot", 2, "28% 50%"), ("vanves-allee-du-progres", 12, "72% 50%"),
 ]
 
 SKIP_CAPTION = {"", ".", "wix issy copy", "boulogne 3", "boulogne 4", "vu", "test"}
@@ -149,10 +149,10 @@ def items_of(key):
     return out
 
 
-def img(it, sizes="100vw", cls="", eager=False, vt=None, alt=None):
+def img(it, sizes="100vw", cls="", eager=False, vt=None, alt=None, focus=None):
     src = f"/img/{it['file']}-1000.webp"
     srcset = f"/img/{it['file']}-1000.webp 1000w, /img/{it['file']}-2000.webp 2000w"
-    style = f"background-image:url({it['lqip']});"
+    style = f"background-image:url({it['lqip']});" + (f"object-position:{focus};background-position:{focus};" if focus else "")
     if vt:
         style += f"view-transition-name:{vt};"
     return (f'<img class="ph {cls}" src="{src}" srcset="{srcset}" sizes="{sizes}" width="{it["w"]}" height="{it["h"]}" '
@@ -372,7 +372,7 @@ def write(path, text):
 
 def card(p, i, base="/projets/", extra=False):
     c = p["cover_item"]
-    pic = img(c, "(max-width: 760px) 92vw, (max-width: 1200px) 46vw, 30vw", vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}") if c else ""
+    pic = img(c, "(max-width: 760px) 92vw, (max-width: 1200px) 46vw, 30vw", vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}", focus=p.get("focus")) if c else ""
     return f"""<li class="card reveal{' is-extra' if extra else ''}" data-kind="{p.get('kind','')}" style="--i:{i % 3}">
   <a href="{base}{p['slug']}/" data-preview="/img/{c['file']}-1000.webp" >
     <div class="card-media">{pic}</div>
@@ -395,12 +395,12 @@ def row(p, i):
 
 # ---- home
 hero_slides = []
-for n, (slug, idx) in enumerate(HERO):
+for n, (slug, idx, focus) in enumerate(HERO):
     p = next(x for x in PROJECTS if x["slug"] == slug)
     it = next(i for i in p["items"] if i["idx"] == idx)
     hero_slides.append(
         f'<a class="slide{" is-on" if n == 0 else ""}" href="/projets/{slug}/" data-slide data-label="{E(p["name"])} · {E(p["place"])}" tabindex="{0 if n == 0 else -1}">'
-        + img(it, "100vw", eager=n == 0, alt=f"{p['name']}, {p['place']}") + "</a>")
+        + img(it, "100vw", eager=n == 0, alt=f"{p['name']}, {p['place']}", focus=focus) + "</a>")
 
 filters = '<div class="filters" role="group" aria-label="Filtrer les projets">' + "".join(
     f'<button type="button" class="chip{" is-on" if k == "all" else ""}" data-filter="{k}" aria-pressed="{"true" if k == "all" else "false"}">{v}<sup>{n}</sup></button>'
@@ -454,16 +454,17 @@ home_body = f"""
 <section class="ba wrap" aria-labelledby="ba-t">
   <div class="section-head">
     <h2 class="section-title reveal" id="ba-t">Avant, <em>après.</em></h2>
-    <p class="section-intro reveal">Rue de Heyrault, Boulogne-Billancourt : 62 m² entièrement rénovés, cuisine ouverte sur double séjour. Faites glisser pour voir la transformation.</p>
+    <p class="section-intro reveal">Faites glisser pour voir la transformation.</p>
+    <div class="ba-tabs reveal" role="tablist" aria-label="Choisir un appartement">{{BA_TABS}}</div>
+    <p class="ba-link reveal"><a class="text-link" href="{{BA_FIRST_URL}}" data-ba-link>Voir le projet <span aria-hidden="true">→</span></a></p>
   </div>
   <div class="ba-frame reveal" data-ba style="aspect-ratio:{{BA_W}}/{{BA_H}};--ar:{{BA_AR}}">
-    <img class="ba-img" src="/img/ba-after-2000.webp" alt="Après travaux : cuisine ouverte et double séjour" loading="lazy" decoding="async">
-    <div class="ba-before"><img class="ba-img" src="/img/ba-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async"></div>
+    <img class="ba-img" src="/img/{{BA_FIRST}}-after-2000.webp" alt="Après travaux" loading="lazy" decoding="async" data-ba-after>
+    <div class="ba-before"><img class="ba-img" src="/img/{{BA_FIRST}}-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async" data-ba-before></div>
     <div class="ba-handle"><span>Glisser</span></div>
     <p class="ba-tag l">Avant</p><p class="ba-tag r">Après</p>
     <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après" data-ba-range>
   </div>
-  <p class="ba-link reveal"><a class="text-link" href="/projets/boulogne-rue-de-heyrault/">Voir le projet <span aria-hidden="true">→</span></a></p>
 </section>
 
 <section class="approach" id="approche" aria-labelledby="approche-t">
@@ -554,7 +555,17 @@ import subprocess, sys as _sys
 subprocess.run([_sys.executable, str(ROOT / "tools" / "align_ba.py")], check=True)  # align on the back wall
 from PIL import Image as _Image
 BA_W, BA_H = _Image.open(SITE / "img" / "ba-after-2000.webp").size
-home_body = home_body.replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).replace("{BA_AR}", f"{BA_W / BA_H:.4f}")
+subprocess.run([_sys.executable, str(ROOT / "tools" / "before_after.py")], check=True)  # the 3 other pairs
+BA_PAIRS = [{"key": "ba", "slug": "boulogne-rue-de-heyrault", "place": "Rue de Heyrault, Boulogne", "caption": "L'entrée et le séjour",
+             "w": BA_W, "h": BA_H}] + [dict(x, key="ba-" + x["key"]) for x in json.loads((ROOT / "data" / "before_after.json").read_text("utf-8"))]
+BA_TABS = "".join(
+    f'<button type="button" role="tab" class="ba-tab{' is-on' if i == 0 else ''}" aria-selected="{'true' if i == 0 else 'false'}" '
+    f'data-ba-tab data-file="{x["key"]}" data-w="{x["w"]}" data-h="{x["h"]}" data-url="/projets/{x["slug"]}/">'
+    f'<span class="ba-tab-place">{E(x["place"])}</span><span class="ba-tab-cap">{E(x["caption"])}</span></button>'
+    for i, x in enumerate(BA_PAIRS))
+first = BA_PAIRS[0]
+home_body = (home_body.replace("{BA_TABS}", BA_TABS).replace("{BA_FIRST}", first["key"]).replace("{BA_FIRST_URL}", f"/projets/{first['slug']}/")
+             .replace("{BA_W}", str(first["w"])).replace("{BA_H}", str(first["h"])).replace("{BA_AR}", f"{first['w'] / first['h']:.4f}"))
 
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
@@ -571,7 +582,7 @@ def detail_page(p, base, idx, collection, label):
     body = f"""
 <article class="project">
   <header class="p-hero">
-    <div class="p-hero-media">{img(c, '100vw', eager=True, vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}") if c else ''}</div>
+    <div class="p-hero-media">{img(c, '100vw', eager=True, vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}", focus=p.get("focus")) if c else ''}</div>
     <div class="p-hero-text wrap">
       <p class="eyebrow light"><a href="{'/#projets' if base == '/projets/' else '/#paysages'}">{label}</a> · {E(p['place'])}</p>
       <h1 class="p-title">{E(p['name'])}</h1>

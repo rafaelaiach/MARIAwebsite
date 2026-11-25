@@ -191,3 +191,29 @@ document.querySelectorAll('[data-ba]').forEach((frame) => {
   btn.addEventListener('click', () => showAll(true));
   document.querySelectorAll('[data-filter]').forEach((c) => c.addEventListener('click', () => showAll(false)));
 })();
+
+/* before/after tabs: swap the pair shown in the slider */
+(() => {
+  const frame = document.querySelector('[data-ba]');
+  const tabs = [...document.querySelectorAll('[data-ba-tab]')];
+  if (!frame || !tabs.length) return;
+  const after = frame.querySelector('[data-ba-after]'), before = frame.querySelector('[data-ba-before]');
+  const range = frame.querySelector('[data-ba-range]'), link = document.querySelector('[data-ba-link]');
+  tabs.forEach((tab) => {
+    const f = tab.dataset.file;
+    [new Image().src = `/img/${f}-after-2000.webp`, new Image().src = `/img/${f}-before-2000.webp`];
+    tab.addEventListener('click', () => {
+      if (tab.classList.contains('is-on')) return;
+      tabs.forEach((t) => { const on = t === tab; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on); });
+      frame.classList.add('is-swapping');
+      setTimeout(() => {
+        after.src = `/img/${f}-after-2000.webp`; before.src = `/img/${f}-before-2000.webp`;
+        const w = +tab.dataset.w, h = +tab.dataset.h;
+        frame.style.aspectRatio = `${w}/${h}`; frame.style.setProperty('--ar', (w / h).toFixed(4));
+        range.value = 50; frame.style.setProperty('--pos', '50%');
+        if (link) link.href = tab.dataset.url;
+        Promise.all([after, before].map((im) => im.decode ? im.decode().catch(() => {}) : null)).then(() => frame.classList.remove('is-swapping'));
+      }, 280);
+    });
+  });
+})();

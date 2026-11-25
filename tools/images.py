@@ -75,8 +75,11 @@ def lift(rgb):
 def process(media_id):
     try:
         # a sharper version made by tools/upscale.py (Real-ESRGAN) wins over the Wix photo
-        hd = ROOT / "cache_hd" / (media_id.split("~")[0] + ".jpg")
-        img = Image.open(hd) if hd.exists() else Image.open(io.BytesIO(fetch(media_id)))
+        # priority: the original photo sent by Maria (originaux/), then the AI-sharpened one (cache_hd/), then Wix
+        stem = media_id.split("~")[0]
+        original = ROOT / "originaux" / (stem + ".jpg")
+        hd = ROOT / "cache_hd" / (stem + ".jpg")
+        img = Image.open(original if original.exists() else hd) if (original.exists() or hd.exists()) else Image.open(io.BytesIO(fetch(media_id)))
         img = ImageOps.exif_transpose(img).convert("RGB")
     except Exception as e:  # noqa: BLE001
         return media_id, {"error": str(e)}
