@@ -404,3 +404,7 @@ body.lb-open { overflow: hidden; }
 .steps p { color: var(--ink-2); }
 .promise { border-top-color: var(--line); }
 .promise-title { color: var(--ink); }
+
+/* the promise: a bit smaller, on fewer lines, less height */
+.promise { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(24px, 3vw, 36px); }
+.promise-title { font-size: clamp(1.35rem, 2.1vw, 1.9rem); line-height: 1.25; max-width: 62ch; }
