@@ -88,13 +88,14 @@ def process(media_id):
     before = float(np.median(lum))
     drawing = is_drawing(rgb)
     gamma = 1.0
-    if not drawing:
+    # Maria's own originals are shown exactly as she sent them: no brightening (asked by Raf, 2026-11-25)
+    if not drawing and not original.exists():
         rgb, gamma = lift(rgb)
         img = Image.fromarray((rgb * 255 + 0.5).astype(np.uint8))
     stem = media_id.split("~")[0]
     for width in (1000, 2000):
         im = img if img.width <= width else img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
-        im.save(OUT / f"{stem}-{width}.webp", "WEBP", quality=84, method=6)
+        im.save(OUT / f"{stem}-{width}.webp", "WEBP", quality=90 if original.exists() else 84, method=6)
     tiny = img.resize((24, max(1, round(img.height * 24 / img.width))), Image.LANCZOS)
     buf = io.BytesIO()
     tiny.save(buf, "WEBP", quality=40)

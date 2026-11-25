@@ -150,8 +150,10 @@ def items_of(key):
 
 
 def img(it, sizes="100vw", cls="", eager=False, vt=None, alt=None, focus=None):
-    src = f"/img/{it['file']}-1000.webp"
-    srcset = f"/img/{it['file']}-1000.webp 1000w, /img/{it['file']}-2000.webp 2000w"
+    f1, f2 = SITE / "img" / f"{it['file']}-1000.webp", SITE / "img" / f"{it['file']}-2000.webp"
+    v = f"?v={int(f1.stat().st_mtime) % 100000}" if f1.exists() else ""   # a changed photo gets a new address: no stale cache
+    src = f"/img/{it['file']}-1000.webp{v}"
+    srcset = f"/img/{it['file']}-1000.webp{v} 1000w, /img/{it['file']}-2000.webp{v} 2000w"
     style = f"background-image:url({it['lqip']});" + (f"object-position:{focus};background-position:{focus};" if focus else "")
     if vt:
         style += f"view-transition-name:{vt};"
