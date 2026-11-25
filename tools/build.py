@@ -431,7 +431,10 @@ home_body = f"""
       <li class="reveal"><span class="step-n">03</span><h3>Les entreprises</h3><p>Consultation des artisans, analyse et négociation des devis. Je connais les prix justes : vous réalisez des économies importantes.</p></li>
       <li class="reveal"><span class="step-n">04</span><h3>Le chantier</h3><p>Direction des travaux, compte rendu chaque semaine, relations avec le syndic et la copropriété. Les délais sont tenus.</p></li>
     </ol>
-    <p class="approach-note reveal">Mon accompagnement va du conseil avisé et pratique à la livraison complète d'un chantier, selon votre projet. Je travaille avec les mêmes artisans, professionnels et de confiance.</p>
+    <div class="promise reveal">
+      <p class="promise-title">Je dépense votre argent comme si c'était le mien.</p>
+      <p class="promise-text">Chaque devis est relu, discuté et négocié : pas de supplément injustifié, pas de travaux superflus. Sur de nombreux chantiers, cette vigilance a permis des économies importantes.</p>
+    </div>
   </div>
 </section>
 

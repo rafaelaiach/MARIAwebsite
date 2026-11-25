@@ -202,6 +202,10 @@ body.menu-open .top { color: var(--ink) !important; background: transparent; bac
 .step-n { font: 500 14px/1 var(--sans); color: #c9ac8c; }
 .steps h3 { font: 500 1.75rem/1.1 var(--serif); margin: 18px 0 12px; }
 .steps p { color: rgba(243,240,234,.72); font-size: 15px; }
+.promise { margin-top: clamp(56px, 7vw, 96px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid rgba(243,240,234,.2); display: grid; grid-template-columns: 5fr 4fr; gap: 24px clamp(32px, 6vw, 96px); align-items: end; }
+.promise-title { font: 400 clamp(2rem, 3.8vw, 3.4rem)/1.05 var(--serif); letter-spacing: -.01em; color: #e9dccb; font-style: italic; }
+.promise-text { color: rgba(243,240,234,.78); font-size: 16px; max-width: 46ch; }
+@media (max-width: 900px) { .promise { grid-template-columns: 1fr; } }
 .approach-note { margin-top: clamp(48px, 6vw, 80px); max-width: 60ch; font: 400 clamp(1.3rem, 2vw, 1.7rem)/1.35 var(--serif); color: rgba(243,240,234,.86); }
 
 /* -------------------------------------------------------------- about */
