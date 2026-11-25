@@ -408,3 +408,24 @@ body.lb-open { overflow: hidden; }
 /* the promise: a bit smaller, on fewer lines, less height */
 .promise { margin-top: clamp(40px, 5vw, 64px); padding-top: clamp(24px, 3vw, 36px); }
 .promise-title { font-size: clamp(1.35rem, 2.1vw, 1.9rem); line-height: 1.25; max-width: 62ch; }
+
+/* ------------------------------------------------------------ reviews */
+.reviews { padding: clamp(80px, 11vw, 150px) 0; border-top: 1px solid var(--line); }
+.reviews-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; margin-bottom: clamp(40px, 5vw, 64px); }
+.reviews-head .section-title { margin-top: 18px; }
+.rating { display: flex; align-items: center; gap: 18px; padding: 18px 26px; border: 1px solid var(--line); border-radius: 999px; transition: border-color .3s, background .3s; }
+.rating:hover { border-color: var(--ink); background: #fff; }
+.rating-num { font: 500 clamp(2.6rem, 4vw, 3.4rem)/1 var(--serif); }
+.rating-side { display: flex; flex-direction: column; gap: 4px; }
+.stars { color: #e3a008; letter-spacing: 2px; font-size: 15px; }
+.rating-count { font-size: 13px; color: var(--muted); }
+.topics { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 clamp(40px, 5vw, 64px); }
+.topics li { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; background: #fff; }
+.topics li span { margin-left: 8px; color: var(--muted); font-size: 12px; }
+.review-grid { columns: 3 300px; column-gap: clamp(16px, 2.4vw, 32px); }
+.review { break-inside: avoid; margin: 0 0 clamp(16px, 2.4vw, 32px); padding: 28px 28px 24px; background: #fff; border: 1px solid var(--line); }
+.review blockquote { margin: 14px 0 18px; font: 400 1.22rem/1.45 var(--serif); color: var(--ink); }
+.review figcaption { font-size: 13px; color: var(--muted); }
+.review figcaption strong { color: var(--ink); font-weight: 600; }
+.reviews-foot { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: baseline; margin-top: 12px; }
+.reviews-note { font-size: 12.5px; color: var(--muted); }

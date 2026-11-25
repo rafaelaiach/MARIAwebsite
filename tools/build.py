@@ -104,6 +104,19 @@ GARDENS = [
          summary="Une cour spacieuse et secrète, pensée en plusieurs recoins : bacs, grimpantes, lumière."),
 ]
 
+
+# ---------------------------------------------------------------- Google reviews
+GOOGLE_URL = "https://maps.google.com/?cid=16784605813823550657"   # her Google Business Profile
+GOOGLE_RATING = "5,0"
+GOOGLE_COUNT = 24
+# What clients mention most (topics Google extracts from her reviews, with their counts, Nov. 2026)
+REVIEW_TOPICS = [("Suivi de chantier", 6), ("Ponctualité", 4), ("Optimisation de l'espace", 3),
+                 ("Respect des délais", 3), ("Rénovation d'appartement", 3), ("Idées innovantes", 3),
+                 ("Réactivité", 2), ("Écoute du client", 2)]
+# Reviews shown in full: pasted in French by Raf from her Google page, word for word, never edited.
+# (name as shown on Google: first name + initial, project or context, text)
+REVIEWS = []
+
 HERO = [  # (project slug, item index) : the opening slideshow.
     # Chosen only on how attractive the photo is full screen: light, space, finishes.
     # Rue Oudinot's large living room always first (asked by Raf on 2026-11-25).
@@ -441,6 +454,25 @@ home_body = f"""
   <p class="ba-link reveal"><a class="text-link" href="/projets/boulogne-rue-de-heyrault/">Voir le projet <span aria-hidden="true">→</span></a></p>
 </section>
 
+<section class="reviews" id="avis" aria-labelledby="avis-t">
+  <div class="wrap">
+    <div class="reviews-head">
+      <div>
+        <p class="eyebrow reveal">Avis clients</p>
+        <h2 class="section-title reveal" id="avis-t">Ils m'ont fait <em>confiance.</em></h2>
+      </div>
+      <a class="rating reveal" href="{GOOGLE_URL}" target="_blank" rel="noopener">
+        <span class="rating-num">{GOOGLE_RATING}</span>
+        <span class="rating-side"><span class="stars" aria-hidden="true">★★★★★</span><span class="rating-count">{GOOGLE_COUNT} avis sur Google</span></span>
+      </a>
+    </div>
+    <p class="label reveal">Ce que ses clients soulignent le plus</p>
+    <ul class="topics reveal">{''.join(f'<li>{E(t)}<span>{n}</span></li>' for t, n in REVIEW_TOPICS)}</ul>
+    {('<div class="review-grid">' + ''.join(f'<figure class="review reveal" style="--i:{i % 3}"><span class="stars" aria-hidden="true">★★★★★</span><blockquote>{E(r[2])}</blockquote><figcaption><strong>{E(r[0])}</strong>{(" · " + E(r[1])) if r[1] else ""}</figcaption></figure>' for i, r in enumerate(REVIEWS)) + '</div>') if REVIEWS else ''}
+    <p class="reviews-foot reveal"><a class="text-link" href="{GOOGLE_URL}" target="_blank" rel="noopener">Lire les {GOOGLE_COUNT} avis sur Google <span aria-hidden="true">→</span></a><span class="reviews-note">Avis publiés sur Google, reproduits sans modification.</span></p>
+  </div>
+</section>
+
 <section class="approach" id="approche" aria-labelledby="approche-t">
   <div class="wrap">
     <p class="eyebrow reveal">Approche</p>
@@ -506,6 +538,7 @@ LD_BUSINESS = {
     "address": {"@type": "PostalAddress", "streetAddress": ADDRESS[0], "postalCode": "75015", "addressLocality": "Paris", "addressCountry": "FR"},
     "areaServed": ["Paris", "Hauts-de-Seine", "Val-de-Marne"],
     "founder": {"@type": "Person", "name": NAME, "jobTitle": "Architecte DPLG"},
+    "sameAs": [GOOGLE_URL],
     "knowsAbout": ["Rénovation d'appartement", "Architecture d'intérieur", "Rénovation énergétique", "Direction de travaux"],
 }
 
