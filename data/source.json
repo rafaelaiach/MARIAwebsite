@@ -233,17 +233,6 @@
    ]
   },
   {
-   "key": "copie-de-issy-les-moulineaux-92130-1",
-   "title": "Cabinet médicale 75015",
-   "items": [
-    {
-     "uri": "ee17b7_a546f3eff658458bb9786d6128e1196b~mv2.jpg",
-     "title": ".",
-     "desc": ""
-    }
-   ]
-  },
-  {
    "key": "copie-de-l-art",
    "title": "Espace paysager : Le jardin partagé",
    "items": [
@@ -2054,57 +2043,6 @@
     {
      "uri": "ee17b7_10a70ef12b6843be94077cd65e03c78a~mv2.jpg",
      "title": "vue à gauche",
-     "desc": ""
-    }
-   ]
-  },
-  {
-   "key": "copie-de-rue-de-l-amiral-roussin-6ème",
-   "title": "Issy les Moulineaux 92130",
-   "items": [
-    {
-     "uri": "ee17b7_0773cb592afe4669b253c5f5f20becec~mv2.jpg",
-     "title": "WIX ISSY copy",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_17e1d45146a3430693256f5cc2c4b838~mv2.png",
-     "title": "rue Matrat-Plan EXISTANT",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_a2c5062cc0a64b678276f5692410628e~mv2.png",
-     "title": "rue Matrat-Plan PROJET V1",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_b16fee0c482d44c39cff0f521dc04985~mv2.png",
-     "title": "rue Matrat-Plan PROJET V2",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_daf6bddbbbc9471abb15cfdd1c76e781~mv2.png",
-     "title": "rue Matrat-Plan PROJET V3",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_e6833930cd7342da99c6eb7ba8ab6eff~mv2.png",
-     "title": "rue Matrat-Plan PROJET V4",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_cb7667d7f2aa44f49e3da8697327ac66~mv2.png",
-     "title": "rue Matrat-Plan PROJET final",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_94d535cb34f44ae089aebc9d02cafbe7~mv2.png",
-     "title": "rue Matrat-Plan PROJET mobilier",
-     "desc": ""
-    },
-    {
-     "uri": "ee17b7_b9c59572fd804e03969edf5ac96608f2~mv2.png",
-     "title": "rue Matrat-Plan Electricité",
      "desc": ""
     }
    ]

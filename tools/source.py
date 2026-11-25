@@ -17,9 +17,12 @@ SSR_PAGES = {
     "copie-de-je-me-presente-1": "art",
 }
 
+# projects not to show on the site (asked on 2026-11-25)
+EXCLUDE = {"copie-de-issy-les-moulineaux-92130-1", "copie-de-rue-de-l-amiral-roussin-6ème"}
+
 groups = []
 for key, page in site.items():
-    if key.startswith("_"):
+    if key.startswith("_") or key in EXCLUDE:
         continue
     items = []
     for gal in page.get("galleries", []):

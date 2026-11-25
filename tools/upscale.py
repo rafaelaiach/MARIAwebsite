@@ -44,6 +44,26 @@ def prepare():
     print(n, "photos ready in", IN)
 
 
+def detail_transfer(classic, ai, radius=3, strength=AI_SHARE):
+    """Only the fine detail comes from the AI; colours and light stay those of the real photo.
+
+    The AI tends to shift colours (warmer, more contrast) and to invent patterns. So:
+    - colour (Cb, Cr) is taken from the classic enlargement of the original, untouched;
+    - brightness = the original's broad tones + the AI's fine edges (what blur removes), at 70 %.
+    """
+    import numpy as np
+    from PIL import ImageFilter
+    cy, ccb, ccr = classic.convert("YCbCr").split()
+    ay = ai.convert("YCbCr").split()[0]
+    c = np.asarray(cy, dtype=np.float32)
+    a = np.asarray(ay, dtype=np.float32)
+    c_low = np.asarray(cy.filter(ImageFilter.GaussianBlur(radius)), dtype=np.float32)
+    a_low = np.asarray(ay.filter(ImageFilter.GaussianBlur(radius)), dtype=np.float32)
+    detail = (a - a_low) * strength + (c - c_low) * (1 - strength)
+    y = np.clip(c_low + detail, 0, 255).astype(np.uint8)
+    return Image.merge("YCbCr", (Image.fromarray(y), ccb, ccr)).convert("RGB")
+
+
 def finish():
     HD.mkdir(exist_ok=True)
     done = 0
@@ -55,7 +75,7 @@ def finish():
         size = (round(src.width * scale), round(src.height * scale))
         ai = ai.resize(size, Image.LANCZOS)
         classic = src.resize(size, Image.LANCZOS)
-        Image.blend(ai, classic, 1 - AI_SHARE).save(HD / f"{stem}.jpg", quality=95)
+        detail_transfer(classic, ai).save(HD / f"{stem}.jpg", quality=95)
         done += 1
     print(done, "photos saved in", HD)
 
