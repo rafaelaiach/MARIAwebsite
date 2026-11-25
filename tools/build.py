@@ -264,7 +264,15 @@ def footer():
     return f"""<footer class="foot" id="contact">
   <div class="foot-inner">
     <p class="eyebrow">Contact</p>
-    <h2 class="foot-title reveal">Parlons de votre<br><em>appartement.</em></h2>
+    <div class="foot-top">
+      <h2 class="foot-title reveal">Parlons de votre<br><em>appartement.</em></h2>
+      <a class="foot-proof reveal" href="{GOOGLE_URL}" target="_blank" rel="noopener">
+        <span class="foot-proof-rating"><span class="rating-num">{GOOGLE_RATING}</span><span class="stars" aria-hidden="true">★★★★★</span></span>
+        <span class="foot-proof-count">{GOOGLE_COUNT} avis clients sur Google</span>
+        <span class="foot-proof-text">Suivi rigoureux, délais et budget tenus, solutions ingénieuses.</span>
+        <span class="foot-proof-link">Lire les avis <span aria-hidden="true">→</span></span>
+      </a>
+    </div>
     <div class="foot-grid">
       <div class="reveal"><p class="label">Téléphone</p><a class="big-link" href="tel:{PHONE_INTL}">{PHONE}</a></div>
       <div class="reveal"><p class="label">E-mail</p><a class="big-link" href="mailto:{EMAIL}">{EMAIL}</a></div>
