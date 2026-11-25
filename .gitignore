@@ -1,0 +1,11 @@
+# Original photos downloaded from Wix (recreated by tools/images.py)
+cache/
+# AI upscaling work files and results (recreated by tools/upscale.py + Real-ESRGAN, ~3 h)
+work/
+cache_hd/
+# Python and editor clutter
+__pycache__/
+*.pyc
+.vscode/
+Thumbs.db
+.DS_Store
