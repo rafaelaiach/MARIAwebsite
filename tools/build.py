@@ -116,6 +116,10 @@ REVIEW_TOPICS = [("Suivi de chantier", 6), ("Ponctualité", 4), ("Optimisation d
 # Reviews shown in full: pasted in French by Raf from her Google page, word for word, never edited.
 # (name as shown on Google: first name + initial, project or context, text)
 REVIEWS = []
+# A summary written by us from the 24 reviews (not a quote, so no name, no quotation marks).
+REVIEW_SUMMARY = ("Ses clients saluent un suivi de chantier rigoureux, des délais et un budget tenus, "
+                  "et des solutions ingénieuses pour tirer parti de chaque mètre carré. "
+                  "Plusieurs lui ont confié leur rénovation depuis l'étranger, en toute sérénité.")
 
 HERO = [  # (project slug, item index) : the opening slideshow.
     # Chosen only on how attractive the photo is full screen: light, space, finishes.
@@ -466,10 +470,12 @@ home_body = f"""
         <span class="rating-side"><span class="stars" aria-hidden="true">★★★★★</span><span class="rating-count">{GOOGLE_COUNT} avis sur Google</span></span>
       </a>
     </div>
+    <p class="label reveal">En résumé</p>
+    <p class="review-summary reveal">{E(REVIEW_SUMMARY)}</p>
     <p class="label reveal">Ce que ses clients soulignent le plus</p>
     <ul class="topics reveal">{''.join(f'<li>{E(t)}<span>{n}</span></li>' for t, n in REVIEW_TOPICS)}</ul>
     {('<div class="review-grid">' + ''.join(f'<figure class="review reveal" style="--i:{i % 3}"><span class="stars" aria-hidden="true">★★★★★</span><blockquote>{E(r[2])}</blockquote><figcaption><strong>{E(r[0])}</strong>{(" · " + E(r[1])) if r[1] else ""}</figcaption></figure>' for i, r in enumerate(REVIEWS)) + '</div>') if REVIEWS else ''}
-    <p class="reviews-foot reveal"><a class="text-link" href="{GOOGLE_URL}" target="_blank" rel="noopener">Lire les {GOOGLE_COUNT} avis sur Google <span aria-hidden="true">→</span></a><span class="reviews-note">Avis publiés sur Google, reproduits sans modification.</span></p>
+    <p class="reviews-foot reveal"><a class="text-link" href="{GOOGLE_URL}" target="_blank" rel="noopener">Lire les {GOOGLE_COUNT} avis sur Google <span aria-hidden="true">→</span></a><span class="reviews-note">{"Avis publiés sur Google, reproduits sans modification." if REVIEWS else "Résumé rédigé à partir des avis publiés sur Google."}</span></p>
   </div>
 </section>
 
