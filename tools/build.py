@@ -428,7 +428,7 @@ home_body = f"""
   <div class="numbers">
     <div class="reveal"><p class="num">26<small> ans</small></p><p class="num-label">d'expérience en architecture</p></div>
     <div class="reveal"><p class="num">100<small>+</small></p><p class="num-label">projets menés</p></div>
-    <div class="reveal"><p class="num">9 m²<small> à </small>139 m²</p><p class="num-label">de la studette au cabinet ou au grand appartement</p></div>
+    <div class="reveal"><p class="num">9 m²<small> à </small>139 m²</p><p class="num-label">de la studette au grand appartement</p></div>
   </div>
 </section>
 
