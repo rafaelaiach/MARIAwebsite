@@ -217,3 +217,16 @@ document.querySelectorAll('[data-ba]').forEach((frame) => {
     });
   });
 })();
+
+/* phones: the call bar shows after the top photo and hides on the contact section */
+(() => {
+  const bar = document.querySelector('[data-callbar]');
+  if (!bar) return;
+  const top = document.querySelector('.hero, .p-hero');
+  const contact = document.getElementById('contact');
+  let onContact = false;
+  const update = () => bar.classList.toggle('is-on', scrollY > (top ? top.offsetHeight * .7 : 300) && !onContact);
+  if (contact) new IntersectionObserver(([e]) => { onContact = e.isIntersecting; update(); }, { threshold: .05 }).observe(contact);
+  addEventListener('scroll', update, { passive: true });
+  update();
+})();

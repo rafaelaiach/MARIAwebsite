@@ -478,3 +478,115 @@ body.lb-open { overflow: hidden; }
   .hero-text { bottom: 96px; }
   .hero-title { font-size: clamp(2.6rem, 11vw, 3.4rem); }
 }
+
+/* =====================================================================
+   PHONES (<= 640 px): mobile-first layout. Desktop is not affected.
+   ===================================================================== */
+.tap-btn, .callbar { display: none; }
+@media (max-width: 640px) {
+  :root { --gutter: 18px; }
+  body { font-size: 15px; }
+
+  /* tighter rhythm between sections */
+  .intro { padding-top: 56px; padding-bottom: 56px; }
+  .projects, .gardens, .art-teaser { padding-bottom: 64px; }
+  .approach, .about { padding: 64px 0; }
+  .ba { padding-bottom: 64px; }
+  .foot { padding: 64px 0 96px; }
+  .section-head { margin-bottom: 24px; gap: 14px; }
+  .section-title { font-size: 2.5rem; }
+  .statement { font-size: 1.65rem; line-height: 1.2; margin-top: 14px; }
+
+  /* figures on one row */
+  .numbers { grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 36px; }
+  .numbers > div { padding-top: 14px; }
+  .num { font-size: 1.75rem; }
+  .numbers > div:last-child .num { font-size: 1.15rem; line-height: 1.5; }
+  .num-label { font-size: 11.5px; line-height: 1.35; margin-top: 6px; }
+
+  /* filters: one row you swipe; no gallery/list switch on phones */
+  .tools { width: 100%; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter); width: calc(100% + 2 * var(--gutter)); }
+  .filters::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; }
+  .views { display: none; }
+  .list { display: none !important; }
+  .grid[hidden] { display: grid !important; }
+
+  /* projects: a two-column portfolio, photo + name + place */
+  .projects .grid { grid-template-columns: 1fr 1fr; gap: 26px 12px; }
+  .projects .grid .card { margin-top: 0 !important; }
+  .projects .card-text { padding-top: 10px; }
+  .projects .card-place { font-size: 9.5px; letter-spacing: .1em; }
+  .projects .card-place span { display: none; }
+  .projects .card-name { font-size: 1.12rem; line-height: 1.15; margin-top: 4px; }
+  .projects .card-sum, .projects .card-facts { display: none; }
+  .more-wrap { margin-top: 32px; }
+  .more-btn { width: 100%; justify-content: center; }
+
+  /* landscape spaces: a carousel you swipe */
+  .gardens .gardens-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; scrollbar-width: none; }
+  .gardens .gardens-grid::-webkit-scrollbar { display: none; }
+  .gardens .gardens-grid .card { flex: 0 0 78%; scroll-snap-align: start; margin-top: 0 !important; }
+  .gardens .card-sum { font-size: 13.5px; }
+
+  /* before / after */
+  .ba-tabs { margin: 16px calc(-1 * var(--gutter)) 0; padding: 0 var(--gutter) 4px; width: calc(100% + 2 * var(--gutter)); }
+  .ba .ba-link { margin-top: 14px; }
+  .ba-frame { width: 100% !important; max-height: 72svh; }
+
+  /* approach: compact steps */
+  .steps { gap: 24px; margin-top: 32px; }
+  .steps li { padding-top: 16px; }
+  .steps h3 { font-size: 1.35rem; margin: 10px 0 6px; }
+  .steps p { font-size: 14.5px; }
+  .promise { margin-top: 32px; padding-top: 20px; }
+  .promise-title { font-size: 1.3rem; }
+
+  /* about */
+  .about-grid { gap: 28px; }
+  .about-text .section-title { margin: 10px 0 16px; }
+  .about-text p:not(.eyebrow) { font-size: 15.5px; }
+
+  /* art strip */
+  .strip li { height: 220px; }
+
+  /* contact: big buttons you can tap */
+  .foot-title { font-size: 2.6rem; }
+  .foot-top { gap: 22px; }
+  .foot-proof { max-width: none; width: 100%; padding: 18px 20px; }
+  .foot-grid { gap: 22px; margin-top: 32px; }
+  .big-link { font-size: 1.25rem; }
+  .tap-btn { display: flex; justify-content: center; margin-top: 12px; padding: 15px 18px; border-radius: 999px; background: var(--ink); color: var(--paper); font-weight: 600; font-size: 15px; }
+  .tap-btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .foot-legal { margin-top: 40px; }
+
+  /* bar at the bottom of the screen: call or write in one tap (hidden on the slideshow and on the contact section) */
+  .callbar { display: flex; position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 55; gap: 8px; padding: 6px; border-radius: 999px; background: rgba(23, 22, 20, .92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,.25); transform: translateY(140%); transition: transform .5s var(--ease); }
+  .callbar.is-on { transform: none; }
+  .callbar a { flex: 1; text-align: center; padding: 12px 10px; border-radius: 999px; color: var(--paper); font-weight: 600; font-size: 14.5px; }
+  .callbar a:first-child { background: var(--paper); color: var(--ink); }
+  body.lb-open .callbar, body.menu-open .callbar { transform: translateY(140%); }
+
+  /* project pages */
+  .p-hero { height: 78svh; min-height: 460px; }
+  .p-title { font-size: 2.6rem; }
+  .p-intro { padding-top: 32px; padding-bottom: 40px; gap: 28px; }
+  .facts { grid-template-columns: 1fr 1fr; column-gap: 16px; }
+  .facts div { flex-direction: column; gap: 2px; padding: 10px 0; }
+  .facts div:nth-child(2) { border-top: 1px solid var(--line); }
+  .facts dd { text-align: left; font-size: 14.5px; }
+  .lede { font-size: 1.5rem; }
+  .prose { margin-top: 20px; font-size: 15px; }
+  .gallery { gap: 12px; padding-bottom: 40px; }
+  .g-row { gap: 12px; }
+  .g-row.two { grid-template-columns: 1fr 1fr; }
+  .g-row.two .g-open img { aspect-ratio: 3 / 4; }
+  .g-fig figcaption { font-size: 11.5px; margin-top: 6px; }
+  .plans { padding: 40px 0; }
+  .next-link { height: 60svh; min-height: 360px; }
+  .next-title { font-size: 2.4rem; }
+}
+
+/* plans: no blurred preview behind them (it tiled while loading) */
+.plans-grid img { background-image: none !important; }

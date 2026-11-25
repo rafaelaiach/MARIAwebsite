@@ -37,13 +37,13 @@ PROJECTS = [
     dict(slug="paris-7-rue-oudinot", key="1er-projet", focus="72% 50%", name="Rue Oudinot",
          place="Paris 7e", surface="139 m²", year="2020", duration="3 mois", kind="complete", cover=1,
          summary="Rénovation d'un appartement de cinq pièces, parquet massif d'origine conservé."),
-    dict(slug="vanves-allee-du-progres", key="copie-de-rue-ledion-75014", name="Allée du Progrès",
+    dict(slug="vanves-allee-du-progres", focus="72% 50%", key="copie-de-rue-ledion-75014", name="Allée du Progrès",
          place="Vanves", surface="42 m²", year="2021", duration="1 mois", kind="partial", cover=12,
          summary="Après un dégât des eaux : solives remplacées, plancher isolé, parquet massif neuf."),
-    dict(slug="paris-14-rue-ledion", key="2e-projet", name="Rue Ledion",
+    dict(slug="paris-14-rue-ledion", focus="40% 55%", key="2e-projet", name="Rue Ledion",
          place="Paris 14e", surface="68 m²", year="2019", duration="2 mois", kind="complete", cover=3,
          summary="Rénovation complète d'un trois pièces, placards sur mesure dans chaque pièce."),
-    dict(slug="paris-7-rue-oudinot-studette", key="copie-de-rue-de-tocqueville-75017", name="Rue Oudinot, studette",
+    dict(slug="paris-7-rue-oudinot-studette", focus="68% 50%", key="copie-de-rue-de-tocqueville-75017", name="Rue Oudinot, studette",
          place="Paris 7e", surface="13 m² + terrasse", year="2020", duration="2 semaines", kind="studio", cover=0,
          summary="Une studette et sa terrasse de 10 m² sur les toits de Paris, rénovées en deux semaines."),
     dict(slug="paris-15-rue-lacretelle", key="copie-de-av-de-fontainebleau-94-krem", name="Rue Lacretelle",
@@ -55,7 +55,7 @@ PROJECTS = [
     dict(slug="colombes-rue-de-stalingrad", key="copie-de-rue-cotentin-75015", name="Rue de Stalingrad",
          place="Colombes", surface="76 m²", year="2020", duration="2 mois et demi", kind="complete", cover=10,
          summary="Un quatre pièces devient un cinq pièces pour une colocation de quatre personnes."),
-    dict(slug="paris-16-avenue-de-versailles", key="5e-projet", name="Avenue de Versailles",
+    dict(slug="paris-16-avenue-de-versailles", focus="50% 35%", key="5e-projet", name="Avenue de Versailles",
          place="Paris 16e", surface="58 m²", year="2019", duration="3 mois", kind="partial", cover=4,
          summary="Un grand deux pièces rénové en vue d'une location."),
     dict(slug="paris-15-rue-blomet", key="copie-de-rue-oudinot-studio-75007", name="Rue Blomet",
@@ -256,6 +256,7 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
   <button class="lb-next" type="button" data-lb-next aria-label="Photo suivante"><span aria-hidden="true">→</span></button>
   <p class="lb-count" data-lb-count></p>
 </div>
+<nav class="callbar" data-callbar aria-label="Contacter Maria Aiach"><a href="tel:{PHONE_INTL}">Appeler</a><a href="mailto:{EMAIL}">E-mail</a></nav>
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
@@ -276,8 +277,8 @@ def footer():
       </a>
     </div>
     <div class="foot-grid">
-      <div class="reveal"><p class="label">Téléphone</p><a class="big-link" href="tel:{PHONE_INTL}">{PHONE}</a></div>
-      <div class="reveal"><p class="label">E-mail</p><a class="big-link" href="mailto:{EMAIL}">{EMAIL}</a></div>
+      <div class="reveal"><p class="label">Téléphone</p><a class="big-link" href="tel:{PHONE_INTL}">{PHONE}</a><a class="tap-btn" href="tel:{PHONE_INTL}">Appeler</a></div>
+      <div class="reveal"><p class="label">E-mail</p><a class="big-link" href="mailto:{EMAIL}">{EMAIL}</a><a class="tap-btn ghost" href="mailto:{EMAIL}">Écrire un e-mail</a></div>
       <div class="reveal"><p class="label">Atelier</p><p class="addr">{E(ADDRESS[0])}<br>{ADDRESS[1]}</p></div>
     </div>
     <div class="foot-legal">
