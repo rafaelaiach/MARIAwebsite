@@ -106,8 +106,8 @@ GARDENS = [
 HERO = [  # (project slug, item index) : the opening slideshow.
     # Chosen only on how attractive the photo is full screen: light, space, finishes.
     # Rue Oudinot's large living room always first (asked by Raf on 2026-11-25).
-    ("paris-7-rue-oudinot", 1), ("paris-14-rue-ledion", 3), ("paris-16-avenue-de-versailles", 4),
-    ("paris-7-rue-oudinot", 3), ("vanves-allee-du-progres", 12), ("paris-7-rue-oudinot", 2),
+    ("paris-7-rue-oudinot", 1), ("paris-14-rue-ledion", 3), ("vanves-allee-du-progres", 15),
+    ("paris-7-rue-oudinot", 2), ("vanves-allee-du-progres", 12),
 ]
 
 SKIP_CAPTION = {"", ".", "wix issy copy", "boulogne 3", "boulogne 4", "vu", "test"}
