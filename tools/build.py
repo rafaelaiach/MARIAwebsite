@@ -466,27 +466,6 @@ home_body = f"""
   <p class="ba-link reveal"><a class="text-link" href="/projets/boulogne-rue-de-heyrault/">Voir le projet <span aria-hidden="true">→</span></a></p>
 </section>
 
-<section class="reviews" id="avis" aria-labelledby="avis-t">
-  <div class="wrap">
-    <div class="reviews-head">
-      <div>
-        <p class="eyebrow reveal">Avis clients</p>
-        <h2 class="section-title reveal" id="avis-t">Ils m'ont fait <em>confiance.</em></h2>
-      </div>
-      <a class="rating reveal" href="{GOOGLE_URL}" target="_blank" rel="noopener">
-        <span class="rating-num">{GOOGLE_RATING}</span>
-        <span class="rating-side"><span class="stars" aria-hidden="true">★★★★★</span><span class="rating-count">{GOOGLE_COUNT} avis sur Google</span></span>
-      </a>
-    </div>
-    <p class="label reveal">En résumé</p>
-    <p class="review-summary reveal">{E(REVIEW_SUMMARY)}</p>
-    <p class="label reveal">Ce que ses clients soulignent le plus</p>
-    <ul class="topics reveal">{''.join(f'<li>{E(t)}<span>{n}</span></li>' for t, n in REVIEW_TOPICS)}</ul>
-    {('<div class="review-grid">' + ''.join(f'<figure class="review reveal" style="--i:{i % 3}"><span class="stars" aria-hidden="true">★★★★★</span><blockquote>{E(r[2])}</blockquote><figcaption><strong>{E(r[0])}</strong>{(" · " + E(r[1])) if r[1] else ""}</figcaption></figure>' for i, r in enumerate(REVIEWS)) + '</div>') if REVIEWS else ''}
-    <p class="reviews-foot reveal"><a class="text-link" href="{GOOGLE_URL}" target="_blank" rel="noopener">Lire les {GOOGLE_COUNT} avis sur Google <span aria-hidden="true">→</span></a><span class="reviews-note">{"Avis publiés sur Google, reproduits sans modification." if REVIEWS else "Résumé rédigé à partir des avis publiés sur Google."}</span></p>
-  </div>
-</section>
-
 <section class="approach" id="approche" aria-labelledby="approche-t">
   <div class="wrap">
     <p class="eyebrow reveal">Approche</p>
