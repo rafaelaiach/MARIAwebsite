@@ -445,7 +445,7 @@ home_body = f"""
       </div>
     </div>
     <ul class="grid" data-grid>{''.join(card(p, i, extra=i >= SHOWN) for i, p in enumerate(PROJECTS))}</ul>
-    <div class="more-wrap" data-more-wrap><button type="button" class="more-btn" data-more>Voir tous les projets <span>({len(PROJECTS)})</span></button></div>
+    <div class="more-wrap" data-more-wrap><button type="button" class="more-btn" data-more>Voir tous les projets</button></div>
     <ul class="list" data-list hidden>{''.join(row(p, i) for i, p in enumerate(PROJECTS))}</ul>
   </div>
   <div class="cursor-preview" aria-hidden="true" data-cursor><img alt=""></div>
