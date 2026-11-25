@@ -202,7 +202,7 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
 <meta property="og:description" content="{E(description_text)}">
 <meta property="og:url" content="{canonical}">
 {f'<meta property="og:image" content="{og_image}">' if og_image else ''}
-<meta name="theme-color" content="#f4efe6">
+<meta name="theme-color" content="#f3efe8">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/Archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">

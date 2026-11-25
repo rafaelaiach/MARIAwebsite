@@ -1,16 +1,17 @@
 /* Maria Aiach, architecte — one stylesheet for every page. */
 
 :root {
-  --paper: #f4efe6;
-  --paper-2: #ece3d4;
-  --ink: #1d1c1a;
-  --ink-2: #45413b;
-  --muted: #7b7369;
-  --line: rgba(29, 28, 26, .14);
-  --terra: #c24f2c;      /* terre cuite: accents */
-  --green: #1e3d33;      /* vert profond: section Approche */
-  --ochre: #dba543;      /* ocre: petits details */
-  --blue: #3f6b93;       /* bleu ardoise: studios */
+  /* Palette chosen by Raf on 2026-11-25: night blue and sand (no orange, yellow or green) */
+  --paper: #f3efe8;      /* sable clair: fond */
+  --paper-2: #e9e3d8;
+  --ink: #1b1b1d;
+  --ink-2: #3f3f45;
+  --muted: #76747a;
+  --line: rgba(27, 27, 29, .14);
+  --terra: #4a6e96;      /* bleu ardoise: accents (name kept so every rule follows) */
+  --green: #1e2a3f;      /* bleu nuit: Approche, Projet suivant, Contact */
+  --ochre: #a9c1da;      /* bleu clair: details on night blue */
+  --blue: #8fb0d1;       /* bleu ciel: studios */
   --bronze: var(--terra);
   --night: #151412;
   --serif: "Archivo", "Helvetica Neue", Arial, sans-serif;   /* titles: Archivo, widened */
@@ -234,9 +235,9 @@ body.menu-open .top { color: var(--ink) !important; background: transparent; bac
 .strip img { height: 100%; width: auto; object-fit: cover; }
 
 /* ------------------------------------------------------------- footer */
-.foot { background: var(--terra); color: #fff7ef; padding: clamp(90px, 12vw, 160px) 0 32px; }
+.foot { background: var(--green); color: #fff7ef; padding: clamp(90px, 12vw, 160px) 0 32px; }
 .foot .eyebrow, .foot .label { color: rgba(255,247,239,.75); }
-.foot .foot-title em { color: #fff7ef; font-weight: 250; }
+.foot .foot-title em { color: var(--ochre); font-weight: 250; }
 .foot .foot-grid { border-top-color: rgba(255,247,239,.3); }
 .foot .foot-legal { color: rgba(255,247,239,.75); }
 .foot .foot-legal a:hover { color: #fff; }
@@ -374,8 +375,8 @@ body.lb-open { overflow: hidden; }
 
 /* one colour per kind of project */
 .kind-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin: 0 6px 1px 8px; vertical-align: middle; background: var(--k, var(--muted)); }
-[data-kind="complete"], .chip[data-filter="complete"] { --k: var(--terra); }
-[data-kind="partial"], .chip[data-filter="partial"] { --k: var(--ochre); }
+[data-kind="complete"], .chip[data-filter="complete"] { --k: var(--green); }
+[data-kind="partial"], .chip[data-filter="partial"] { --k: var(--terra); }
 [data-kind="studio"], .chip[data-filter="studio"] { --k: var(--blue); }
-[data-kind="plans"], .chip[data-filter="plans"] { --k: var(--green); }
+[data-kind="plans"], .chip[data-filter="plans"] { --k: var(--muted); }
 .chip[data-filter]:not([data-filter="all"])::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--k); margin-right: 7px; vertical-align: 1px; }
