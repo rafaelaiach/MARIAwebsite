@@ -33,60 +33,61 @@ SIRET = "888 747 920 000 13"
 # ---------------------------------------------------------------- projects
 # kind: complete | partial | studio | plans
 PROJECTS = [
-    dict(slug="boulogne-rue-de-heyrault", key="copie-de-rue-de-l-amiral-roussin-6ème-1", name="Rue de Heyrault",
-         place="Boulogne-Billancourt", surface="62 m²", year="2024", duration="4 mois", kind="complete", cover=1, crop=(0.515, 0, 1.0, 0.945),
-         summary="Rénovation totale d'un trois pièces, création d'une cuisine ouverte sur double séjour."),
-    dict(slug="paris-16-rue-montevideo", key="copie-de-rue-oudinot-75007-1", name="Rue Montevideo",
-         place="Paris 16e", surface="9,20 m²", year="2024", duration="1 mois", kind="studio", cover=0, crop=(0.39, 0.03, 0.975, 0.895),
-         summary="Rénovation complète d'une studette, pour des propriétaires installés à Hong Kong."),
-    dict(slug="paris-15-place-cherioux", key="copie-de-issy-les-moulineaux-92130-2", name="Place Chérioux",
-         place="Paris 15e", surface="17 m² + 4 m²", year="2024", duration="3 mois", kind="studio", cover=2, crop=(0.01, 0.01, 0.745, 0.915),
-         summary="Une loge de gardien devient un studio, avec mezzanine, salle de bains, kitchenette et buanderie."),
-    dict(slug="fort-de-france-le-parc-de-redoute", key="copie-de-issy-les-moulineaux-92130", name="Le Parc de Redoute",
-         place="Fort-de-France, Martinique", surface="51 m²", year="2023", duration="Plans et descriptif", kind="plans", cover=0,
-         summary="Un plan repensé pour une retraite confortable : salle de bains, cuisine et chambre accessibles."),
-    dict(slug="paris-15-rue-de-l-amiral-roussin-sous-les-toits", key="copie-de-rue-oudinot-75007", name="Rue de l'Amiral Roussin, 6e étage",
-         place="Paris 15e", surface="23 m²", year="2022", duration="1 mois", kind="partial", cover=8,
-         summary="Un deux pièces sous les combles isolé par l'intérieur : ni trop chaud l'été, ni trop froid l'hiver."),
-    dict(slug="paris-15-rue-lacretelle", key="copie-de-av-de-fontainebleau-94-krem", name="Rue Lacretelle",
-         place="Paris 15e", surface="50 m²", year="2021", duration="3 mois et demi", kind="complete", cover=8,
-         summary="Rénovation énergétique de qualité : chaque centimètre carré est exploité."),
-    dict(slug="kremlin-bicetre-avenue-de-fontainebleau", key="copie-de-rue-fleurus-75006", name="Avenue de Fontainebleau",
-         place="Le Kremlin-Bicêtre", surface="30 m²", year="2021", duration="6 semaines", kind="studio", cover=15,
-         summary="Un studio au dixième étage : cuisine, salle de bains et nouvelles fenêtres, loué aussitôt."),
-    dict(slug="paris-6-rue-de-fleurus", key="copie-de-place-du-tertre-75018", name="Rue de Fleurus",
-         place="Paris 6e", surface="12 m²", year="2021", duration="", kind="studio", cover=14,
-         summary="Un studio près du jardin du Luxembourg, entièrement refait : pas un centimètre carré perdu."),
-    dict(slug="vanves-allee-du-progres", key="copie-de-rue-ledion-75014", name="Allée du Progrès",
-         place="Vanves", surface="42 m²", year="2021", duration="1 mois", kind="partial", cover=12,
-         summary="Après un dégât des eaux : solives remplacées, plancher isolé, parquet massif neuf."),
-    dict(slug="colombes-rue-de-stalingrad", key="copie-de-rue-cotentin-75015", name="Rue de Stalingrad",
-         place="Colombes", surface="76 m²", year="2020", duration="2 mois et demi", kind="complete", cover=12,
-         summary="Un quatre pièces devient un cinq pièces pour une colocation de quatre personnes."),
+    # order shown on the site: the most beautiful first, Le Parc de Redoute (plans only) last
     dict(slug="paris-7-rue-oudinot", key="1er-projet", name="Rue Oudinot",
          place="Paris 7e", surface="139 m²", year="2020", duration="3 mois", kind="complete", cover=1,
          summary="Rénovation d'un appartement de cinq pièces, parquet massif d'origine conservé."),
-    dict(slug="paris-15-rue-blomet", key="copie-de-rue-oudinot-studio-75007", name="Rue Blomet",
-         place="Paris 15e", surface="13 m²", year="2020", duration="2 mois et demi", kind="studio", cover=0,
-         summary="Un studio aux poutres apparentes, entièrement repensé et rénové thermiquement."),
-    dict(slug="paris-7-rue-oudinot-studette", key="copie-de-rue-de-tocqueville-75017", name="Rue Oudinot, studette",
-         place="Paris 7e", surface="13 m² + terrasse", year="2020", duration="2 semaines", kind="studio", cover=0,
-         summary="Une studette et sa terrasse de 10 m² sur les toits de Paris, rénovées en deux semaines."),
+    dict(slug="vanves-allee-du-progres", key="copie-de-rue-ledion-75014", name="Allée du Progrès",
+         place="Vanves", surface="42 m²", year="2021", duration="1 mois", kind="partial", cover=12,
+         summary="Après un dégât des eaux : solives remplacées, plancher isolé, parquet massif neuf."),
     dict(slug="paris-14-rue-ledion", key="2e-projet", name="Rue Ledion",
          place="Paris 14e", surface="68 m²", year="2019", duration="2 mois", kind="complete", cover=3,
          summary="Rénovation complète d'un trois pièces, placards sur mesure dans chaque pièce."),
-    dict(slug="paris-16-avenue-de-versailles", key="5e-projet", name="Avenue de Versailles",
-         place="Paris 16e", surface="58 m²", year="2019", duration="3 mois", kind="partial", cover=4,
-         summary="Un grand deux pièces rénové en vue d'une location."),
-    dict(slug="paris-17-rue-de-tocqueville", key="6e-projet", name="Rue de Tocqueville",
-         place="Paris 17e", surface="61 m²", year="2016", duration="6 semaines", kind="partial", cover=1,
-         summary="Un trois pièces mis en valeur avec un budget minimum, en vue de sa vente."),
+    dict(slug="paris-7-rue-oudinot-studette", key="copie-de-rue-de-tocqueville-75017", name="Rue Oudinot, studette",
+         place="Paris 7e", surface="13 m² + terrasse", year="2020", duration="2 semaines", kind="studio", cover=0,
+         summary="Une studette et sa terrasse de 10 m² sur les toits de Paris, rénovées en deux semaines."),
+    dict(slug="paris-15-rue-lacretelle", key="copie-de-av-de-fontainebleau-94-krem", name="Rue Lacretelle",
+         place="Paris 15e", surface="50 m²", year="2021", duration="3 mois et demi", kind="complete", cover=8,
+         summary="Rénovation énergétique de qualité : chaque centimètre carré est exploité."),
     dict(slug="paris-15-rue-de-l-amiral-roussin", key="4e-projet", name="Rue de l'Amiral Roussin",
          place="Paris 15e", surface="78 m²", year="2013", duration="3 mois", kind="complete", cover=0,
          summary="Deux appartements réunis en un, et des portes coulissantes en métal découpées au laser."),
+    dict(slug="colombes-rue-de-stalingrad", key="copie-de-rue-cotentin-75015", name="Rue de Stalingrad",
+         place="Colombes", surface="76 m²", year="2020", duration="2 mois et demi", kind="complete", cover=12,
+         summary="Un quatre pièces devient un cinq pièces pour une colocation de quatre personnes."),
+    dict(slug="paris-16-avenue-de-versailles", key="5e-projet", name="Avenue de Versailles",
+         place="Paris 16e", surface="58 m²", year="2019", duration="3 mois", kind="partial", cover=4,
+         summary="Un grand deux pièces rénové en vue d'une location."),
+    dict(slug="paris-15-rue-blomet", key="copie-de-rue-oudinot-studio-75007", name="Rue Blomet",
+         place="Paris 15e", surface="13 m²", year="2020", duration="2 mois et demi", kind="studio", cover=0,
+         summary="Un studio aux poutres apparentes, entièrement repensé et rénové thermiquement."),
+    dict(slug="boulogne-rue-de-heyrault", key="copie-de-rue-de-l-amiral-roussin-6ème-1", name="Rue de Heyrault",
+         place="Boulogne-Billancourt", surface="62 m²", year="2024", duration="4 mois", kind="complete", cover=1, crop=(0.515, 0, 1.0, 0.945),
+         summary="Rénovation totale d'un trois pièces, création d'une cuisine ouverte sur double séjour."),
+    dict(slug="paris-15-place-cherioux", key="copie-de-issy-les-moulineaux-92130-2", name="Place Chérioux",
+         place="Paris 15e", surface="17 m² + 4 m²", year="2024", duration="3 mois", kind="studio", cover=2, crop=(0.01, 0.01, 0.745, 0.915),
+         summary="Une loge de gardien devient un studio, avec mezzanine, salle de bains, kitchenette et buanderie."),
+    dict(slug="paris-6-rue-de-fleurus", key="copie-de-place-du-tertre-75018", name="Rue de Fleurus",
+         place="Paris 6e", surface="12 m²", year="2021", duration="", kind="studio", cover=14,
+         summary="Un studio près du jardin du Luxembourg, entièrement refait : pas un centimètre carré perdu."),
+    dict(slug="kremlin-bicetre-avenue-de-fontainebleau", key="copie-de-rue-fleurus-75006", name="Avenue de Fontainebleau",
+         place="Le Kremlin-Bicêtre", surface="30 m²", year="2021", duration="6 semaines", kind="studio", cover=15,
+         summary="Un studio au dixième étage : cuisine, salle de bains et nouvelles fenêtres, loué aussitôt."),
+    dict(slug="paris-17-rue-de-tocqueville", key="6e-projet", name="Rue de Tocqueville",
+         place="Paris 17e", surface="61 m²", year="2016", duration="6 semaines", kind="partial", cover=1,
+         summary="Un trois pièces mis en valeur avec un budget minimum, en vue de sa vente."),
     dict(slug="paris-15-place-violet", key="copie-de-3e-projet", name="Place Violet",
          place="Paris 15e", surface="73 m²", year="2004", duration="3 mois", kind="complete", cover=0,
          summary="Un trois pièces optimisé pour une famille de quatre : le mieux conçu de l'immeuble."),
+    dict(slug="paris-15-rue-de-l-amiral-roussin-sous-les-toits", key="copie-de-rue-oudinot-75007", name="Rue de l'Amiral Roussin, 6e étage",
+         place="Paris 15e", surface="23 m²", year="2022", duration="1 mois", kind="partial", cover=8,
+         summary="Un deux pièces sous les combles isolé par l'intérieur : ni trop chaud l'été, ni trop froid l'hiver."),
+    dict(slug="paris-16-rue-montevideo", key="copie-de-rue-oudinot-75007-1", name="Rue Montevideo",
+         place="Paris 16e", surface="9,20 m²", year="2024", duration="1 mois", kind="studio", cover=0, crop=(0.39, 0.03, 0.975, 0.895),
+         summary="Rénovation complète d'une studette, pour des propriétaires installés à Hong Kong."),
+    dict(slug="fort-de-france-le-parc-de-redoute", key="copie-de-issy-les-moulineaux-92130", name="Le Parc de Redoute",
+         place="Fort-de-France, Martinique", surface="51 m²", year="2023", duration="Plans et descriptif", kind="plans", cover=0,
+         summary="Un plan repensé pour une retraite confortable : salle de bains, cuisine et chambre accessibles."),
 ]
 KINDS = {"complete": "Rénovation complète", "partial": "Rénovation partielle", "studio": "Studio", "plans": "Plans et conception"}
 
@@ -441,7 +442,7 @@ home_body = f"""
 
 <section class="about" id="apropos" aria-labelledby="apropos-t">
   <div class="wrap about-grid">
-    <div class="about-media reveal">{img(PROJECTS[-2]['items'][0], '(max-width: 760px) 100vw, 40vw', alt="Porte coulissante en métal découpée au laser, dessinée par Maria Aiach")}<p class="media-cap">Porte coulissante en métal découpée au laser, dessinée d'après l'horloge de la cathédrale de Milan. Rue de l'Amiral Roussin, 2013.</p></div>
+    <div class="about-media reveal">{img(next(p for p in PROJECTS if p['slug']=='paris-15-rue-de-l-amiral-roussin')['items'][0], '(max-width: 760px) 100vw, 40vw', alt="Porte coulissante en métal découpée au laser, dessinée par Maria Aiach")}<p class="media-cap">Porte coulissante en métal découpée au laser, dessinée d'après l'horloge de la cathédrale de Milan. Rue de l'Amiral Roussin, 2013.</p></div>
     <div class="about-text">
       <p class="eyebrow reveal">À propos</p>
       <h2 class="section-title reveal" id="apropos-t">Maria Aiach</h2>
@@ -494,7 +495,7 @@ LD_BUSINESS = {
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
     description_text="Maria Aiach, architecte DPLG à Paris 15e : rénovation d'appartements clé en main, du plan idéal à la remise des clés. Studios, familles, cabinets.",
-    path="/", body=home_body, cls="home over-dark", jsonld=LD_BUSINESS, image=PROJECTS[12]["cover_item"]["file"]))
+    path="/", body=home_body, cls="home over-dark", jsonld=LD_BUSINESS, image=PROJECTS[0]["cover_item"]["file"]))
 
 # ---- project pages
 def detail_page(p, base, idx, collection, label):
