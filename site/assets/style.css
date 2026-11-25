@@ -146,7 +146,7 @@ body.menu-open .top { color: var(--ink) !important; background: transparent; bac
 /* -------------------------------------------------------------- intro */
 .intro { padding-top: clamp(80px, 14vw, 180px); padding-bottom: clamp(80px, 12vw, 160px); }
 .statement { font: 400 clamp(1.9rem, 4.2vw, 3.9rem)/1.12 var(--serif); letter-spacing: -.01em; max-width: 22ch; margin-top: 24px; }
-.numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: clamp(56px, 8vw, 110px); border-top: 1px solid var(--line); }
+.numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: clamp(56px, 8vw, 110px); border-top: 1px solid var(--line); }
 .numbers > div { padding-top: 24px; }
 .num { font: 500 clamp(2.2rem, 4.6vw, 4rem)/1 var(--serif); }
 .num small { font-size: .5em; color: var(--muted); }
@@ -335,7 +335,8 @@ body.lb-open { overflow: hidden; }
   body { font-size: 15.5px; }
   .grid { grid-template-columns: 1fr; gap: 44px; }
   .grid .card:nth-child(2n) { margin-top: 0; }
-  .numbers, .foot-grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
+  .numbers { grid-template-columns: 1fr 1fr; row-gap: 8px; }
   .steps { grid-template-columns: 1fr; }
   .views { padding-left: 0; border-left: 0; }
   .row a { grid-template-columns: 1fr auto; gap: 4px 12px; padding: 18px 0; }
