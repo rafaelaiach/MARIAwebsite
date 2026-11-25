@@ -104,11 +104,10 @@ GARDENS = [
 ]
 
 HERO = [  # (project slug, item index or "cover") : the opening slideshow.
-    # First the four first works shown on her Wix site (Oudinot, Lacretelle, Amiral Roussin 6e, Heyrault),
-    # then two more bright, sharp photos.
-    ("paris-7-rue-oudinot", 1), ("paris-15-rue-lacretelle", 11),
-    ("paris-15-rue-de-l-amiral-roussin-sous-les-toits", 8), ("boulogne-rue-de-heyrault", "cover"),
-    ("vanves-allee-du-progres", 12), ("paris-7-rue-oudinot-studette", 0),
+    # Chosen only on how attractive the photo is full screen: light, space, finishes.
+    # Rue Oudinot's large living room always first (asked by Raf on 2026-11-25).
+    ("paris-7-rue-oudinot", 1), ("paris-14-rue-ledion", 3), ("vanves-allee-du-progres", 12),
+    ("paris-7-rue-oudinot-studette", 0), ("colombes-rue-de-stalingrad", 11), ("paris-7-rue-oudinot", 2),
 ]
 
 SKIP_CAPTION = {"", ".", "wix issy copy", "boulogne 3", "boulogne 4", "vu", "test"}
