@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
-DOMAIN = "https://www.maria-aiach-architecte.fr"   # to change for the real address
+DOMAIN = "https://mariaaiacharchitecte.fr"   # her domain, bought on 2026-11-25
 
 import hashlib
 ASSET_V = hashlib.md5(b"".join((SITE / "assets" / f).read_bytes() for f in ("style.css", "site.js"))).hexdigest()[:8]  # new value when CSS/JS change: browsers reload them
@@ -639,7 +639,7 @@ write("/mentions-legales/", layout(
     <h3>Éditrice du site</h3>
     <p>Maria Aiach, architecte DPLG, entreprise individuelle. SIRET {SIRET}.<br>{E(ADDRESS[0])}, {ADDRESS[1]}. Tél. {PHONE}. {EMAIL}</p>
     <h3>Hébergement</h3>
-    <p>À compléter avec le nom, l'adresse et le téléphone de l'hébergeur choisi.</p>
+    <p>Netlify, Inc., San Francisco, Californie, États-Unis. <a href="https://www.netlify.com">www.netlify.com</a></p>
     <h3>Photographies et contenus</h3>
     <p>Les photographies, plans et textes sont la propriété de Maria Aiach. Toute reproduction sans autorisation est interdite.</p>
     <h3>Données personnelles</h3>
