@@ -394,3 +394,13 @@ body.lb-open { overflow: hidden; }
 /* the promise: one sentence, large */
 .promise { grid-template-columns: 1fr; }
 .promise-title { font-size: clamp(1.6rem, 2.9vw, 2.7rem); line-height: 1.18; max-width: 34ch; }
+
+/* Approach: white section, numbers in green (asked on 2026-11-25: no orange) */
+.approach { background: #fff; color: var(--ink); }
+.approach .eyebrow { color: var(--muted); }
+.approach .section-title em { color: var(--bronze); }
+.steps li { border-top-color: var(--line); }
+.step-n { color: #3f8a5c; font-weight: 600; font-size: 15px; }
+.steps p { color: var(--ink-2); }
+.promise { border-top-color: var(--line); }
+.promise-title { color: var(--ink); }
