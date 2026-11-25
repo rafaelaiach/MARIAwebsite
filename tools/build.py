@@ -89,6 +89,7 @@ PROJECTS = [
          place="Fort-de-France, Martinique", surface="51 m²", year="2023", duration="Plans et descriptif", kind="plans", cover=0,
          summary="Un plan repensé pour une retraite confortable : salle de bains, cuisine et chambre accessibles."),
 ]
+SHOWN = 9  # projects shown on the homepage before 'Voir tous les projets' (the first ones of PROJECTS)
 KINDS = {"complete": "Rénovation complète", "partial": "Rénovation partielle", "studio": "Studio", "plans": "Plans et conception"}
 
 GARDENS = [
@@ -344,10 +345,10 @@ def write(path, text):
     f.write_text(text, "utf-8")
 
 
-def card(p, i, base="/projets/"):
+def card(p, i, base="/projets/", extra=False):
     c = p["cover_item"]
     pic = img(c, "(max-width: 760px) 92vw, (max-width: 1200px) 46vw, 30vw", vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}") if c else ""
-    return f"""<li class="card reveal" data-kind="{p.get('kind','')}" style="--i:{i % 3}">
+    return f"""<li class="card reveal{' is-extra' if extra else ''}" data-kind="{p.get('kind','')}" style="--i:{i % 3}">
   <a href="{base}{p['slug']}/" data-preview="/img/{c['file']}-1000.webp" >
     <div class="card-media">{pic}</div>
     <div class="card-text">
@@ -406,6 +407,25 @@ home_body = f"""
   </div>
 </section>
 
+<section class="projects" id="projets" aria-labelledby="projets-t">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title reveal" id="projets-t">Projets</h2>
+      <div class="tools">
+        {filters}
+        <div class="views" role="group" aria-label="Affichage">
+          <button type="button" class="view is-on" data-view="grid" aria-pressed="true">Galerie</button>
+          <button type="button" class="view" data-view="list" aria-pressed="false">Liste</button>
+        </div>
+      </div>
+    </div>
+    <ul class="grid" data-grid>{''.join(card(p, i, extra=i >= SHOWN) for i, p in enumerate(PROJECTS))}</ul>
+    <div class="more-wrap" data-more-wrap><button type="button" class="more-btn" data-more>Voir tous les projets <span>({len(PROJECTS)})</span></button></div>
+    <ul class="list" data-list hidden>{''.join(row(p, i) for i, p in enumerate(PROJECTS))}</ul>
+  </div>
+  <div class="cursor-preview" aria-hidden="true" data-cursor><img alt=""></div>
+</section>
+
 <section class="ba wrap" aria-labelledby="ba-t">
   <div class="section-head">
     <h2 class="section-title reveal" id="ba-t">Avant, <em>après.</em></h2>
@@ -421,24 +441,6 @@ home_body = f"""
   <p class="ba-link reveal"><a class="text-link" href="/projets/boulogne-rue-de-heyrault/">Voir le projet <span aria-hidden="true">→</span></a></p>
 </section>
 
-<section class="projects" id="projets" aria-labelledby="projets-t">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="section-title reveal" id="projets-t">Projets</h2>
-      <div class="tools">
-        {filters}
-        <div class="views" role="group" aria-label="Affichage">
-          <button type="button" class="view is-on" data-view="grid" aria-pressed="true">Galerie</button>
-          <button type="button" class="view" data-view="list" aria-pressed="false">Liste</button>
-        </div>
-      </div>
-    </div>
-    <ul class="grid" data-grid>{''.join(card(p, i) for i, p in enumerate(PROJECTS))}</ul>
-    <ul class="list" data-list hidden>{''.join(row(p, i) for i, p in enumerate(PROJECTS))}</ul>
-  </div>
-  <div class="cursor-preview" aria-hidden="true" data-cursor><img alt=""></div>
-</section>
-
 <section class="approach" id="approche" aria-labelledby="approche-t">
   <div class="wrap">
     <p class="eyebrow reveal">Approche</p>
@@ -450,8 +452,7 @@ home_body = f"""
       <li class="reveal"><span class="step-n">04</span><h3>Le chantier</h3><p>Direction des travaux, compte rendu chaque semaine, relations avec le syndic et la copropriété. Les délais sont tenus.</p></li>
     </ol>
     <div class="promise reveal">
-      <p class="promise-title">Je dépense votre argent comme si c'était le mien.</p>
-      <p class="promise-text">Chaque devis est relu, discuté et négocié : pas de supplément injustifié, pas de travaux superflus. Sur de nombreux chantiers, cette vigilance a permis des économies importantes.</p>
+      <p class="promise-title">Chaque devis est relu, discuté et négocié : pas de supplément injustifié, pas de travaux superflus. Sur de nombreux chantiers, cette vigilance a permis des économies importantes.</p>
     </div>
   </div>
 </section>

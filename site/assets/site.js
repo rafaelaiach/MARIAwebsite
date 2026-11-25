@@ -173,3 +173,21 @@ document.querySelectorAll('[data-ba]').forEach((frame) => {
   range.addEventListener('input', () => set(range.value));
   set(range.value);
 });
+
+/* 9 projects on the homepage; "Voir tous les projets" (or any filter) shows the rest */
+(() => {
+  const grid = document.querySelector('[data-grid]');
+  const btn = document.querySelector('[data-more]');
+  const wrap = document.querySelector('[data-more-wrap]');
+  if (!grid || !btn) return;
+  const showAll = (animate) => {
+    const run = () => {
+      grid.classList.add('show-all');
+      wrap.classList.add('is-done');
+      grid.querySelectorAll('.is-extra').forEach((el) => el.classList.add('is-in'));
+    };
+    (animate && document.startViewTransition) ? document.startViewTransition(run) : run();
+  };
+  btn.addEventListener('click', () => showAll(true));
+  document.querySelectorAll('[data-filter]').forEach((c) => c.addEventListener('click', () => showAll(false)));
+})();
