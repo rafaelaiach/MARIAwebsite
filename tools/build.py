@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
 DOMAIN = "https://www.maria-aiach-architecte.fr"   # to change for the real address
 
+import hashlib
+ASSET_V = hashlib.md5(b"".join((SITE / "assets" / f).read_bytes() for f in ("style.css", "site.js"))).hexdigest()[:8]  # new value when CSS/JS change: browsers reload them
+
 source = json.loads((ROOT / "data" / "source.json").read_text("utf-8"))
 images = json.loads((ROOT / "data" / "images.json").read_text("utf-8"))
 raw = json.loads((ROOT / "data" / "raw" / "site.json").read_text("utf-8"))
@@ -99,9 +102,9 @@ GARDENS = [
          summary="Une cour spacieuse et secrète, pensée en plusieurs recoins : bacs, grimpantes, lumière."),
 ]
 
-HERO = [  # (project slug, item index) : the opening slideshow
-    ("paris-7-rue-oudinot", 1), ("paris-15-rue-lacretelle", 8), ("paris-14-rue-ledion", 3),
-    ("paris-7-rue-oudinot-studette", 0), ("paris-15-rue-de-l-amiral-roussin", 0), ("paris-16-avenue-de-versailles", 4),
+HERO = [  # (project slug, item index) : the opening slideshow — bright, sharp, wide photos only
+    ("paris-7-rue-oudinot", 1), ("vanves-allee-du-progres", 12), ("paris-7-rue-oudinot-studette", 0),
+    ("paris-14-rue-ledion", 3), ("paris-7-rue-oudinot", 2), ("paris-15-rue-de-l-amiral-roussin", 0),
 ]
 
 SKIP_CAPTION = {"", ".", "wix issy copy", "boulogne 3", "boulogne 4", "vu", "test"}
@@ -201,7 +204,7 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
 <link rel="preload" href="/fonts/CormorantGaramond-normal-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/Manrope-normal-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css?v={ASSET_V}">
 {ld}
 </head>
 <body class="{cls}">
@@ -230,7 +233,7 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
   <button class="lb-next" type="button" data-lb-next aria-label="Photo suivante"><span aria-hidden="true">→</span></button>
   <p class="lb-count" data-lb-count></p>
 </div>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
 """

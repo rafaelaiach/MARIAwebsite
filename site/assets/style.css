@@ -122,7 +122,7 @@ body.menu-open .top { color: var(--ink) !important; background: transparent; bac
 .slide.is-on { opacity: 1; z-index: 1; }
 .slide img { transform: scale(1.12); transition: transform 9s linear; }
 .slide.is-on img { transform: scale(1.02); }
-.hero-shade { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 46%, rgba(0,0,0,.55) 100%); }
+.hero-shade { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,.34) 0%, rgba(0,0,0,.12) 38%, rgba(0,0,0,0) 60%), linear-gradient(180deg, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 26%, rgba(0,0,0,0) 46%, rgba(0,0,0,.55) 100%); }
 .hero-text { position: absolute; z-index: 3; left: var(--gutter); right: var(--gutter); bottom: clamp(110px, 17vh, 170px); pointer-events: none; }
 .hero-title { font: 500 clamp(3rem, 8.2vw, 8.6rem)/.9 var(--serif); letter-spacing: -.03em; margin-top: 18px; }
 .hero-title em { color: #e9dccb; }
