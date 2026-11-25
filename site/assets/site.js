@@ -165,3 +165,25 @@
     lb.addEventListener('touchend', (e) => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); sx = null; });
   }
 })();
+
+/* 2026-11-25: before/after slider and floating call-to-action */
+(() => {
+  document.querySelectorAll('[data-ba]').forEach((frame) => {
+    const range = frame.querySelector('[data-ba-range]');
+    const set = (v) => frame.style.setProperty('--pos', v + '%');
+    range.addEventListener('input', () => set(range.value));
+    set(range.value);
+  });
+  const cta = document.querySelector('[data-float-cta]');
+  if (!cta) return;
+  const hero = document.querySelector('.hero, .p-hero');
+  const contact = document.getElementById('contact');
+  let contactVisible = false;
+  const update = () => {
+    const past = scrollY > (hero ? hero.offsetHeight * 0.6 : 200);
+    cta.classList.toggle('is-on', past && !contactVisible);
+  };
+  if (contact) new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; update(); }, { threshold: 0.15 }).observe(contact);
+  addEventListener('scroll', update, { passive: true });
+  update();
+})();

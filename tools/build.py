@@ -204,7 +204,8 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
 {f'<meta property="og:image" content="{og_image}">' if og_image else ''}
 <meta name="theme-color" content="#f3efe8">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/fonts/Archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Geist-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/GeistMono-variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/style.css?v={ASSET_V}">
 {ld}
@@ -235,6 +236,7 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
   <button class="lb-next" type="button" data-lb-next aria-label="Photo suivante"><span aria-hidden="true">→</span></button>
   <p class="lb-count" data-lb-count></p>
 </div>
+<a class="float-cta" href="/#contact" data-float-cta><span class="float-dot" aria-hidden="true"></span>Parler de mon projet</a>
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
@@ -345,12 +347,13 @@ def write(path, text):
 
 def card(p, i, base="/projets/"):
     c = p["cover_item"]
+    num = f"{i + 1:02d}"
     pic = img(c, "(max-width: 760px) 92vw, (max-width: 1200px) 46vw, 30vw", vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}") if c else ""
     return f"""<li class="card reveal" data-kind="{p.get('kind','')}" style="--i:{i % 3}">
   <a href="{base}{p['slug']}/" data-preview="/img/{c['file']}-1000.webp" >
     <div class="card-media">{pic}</div>
     <div class="card-text">
-      <p class="card-place">{E(p['place'])}<span>{E(p['year'])}</span></p>
+      <p class="card-place"><span class="card-num">{num}</span>{E(p['place'])}<span>{E(p['year'])}</span></p>
       <h3 class="card-name">{E(p['name'])}</h3>
       <p class="card-sum">{E(p['summary'])}</p>
       <p class="card-facts">{E(p['surface'])}{'<span class="kind-dot"></span>' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
@@ -395,6 +398,8 @@ home_body = f"""
   </div>
 </section>
 
+<div class="marquee" aria-hidden="true"><div class="marquee-track">{{MARQUEE}}{{MARQUEE}}</div></div>
+
 <section class="intro wrap" id="intro">
   <p class="eyebrow reveal">L'atelier</p>
   <p class="statement reveal">Je conçois et je mène la rénovation de votre appartement, <em>clé en main</em> : du plan idéal au choix des matériaux, de la lumière aux placards sur mesure, jusqu'à la remise des clés.</p>
@@ -404,6 +409,21 @@ home_body = f"""
     <div class="reveal"><p class="num">6<small> ans</small></p><p class="num-label">architecte indépendante</p></div>
     <div class="reveal"><p class="num">20</p><p class="num-label">projets menés en indépendante</p></div>
   </div>
+</section>
+
+<section class="ba wrap" aria-labelledby="ba-t">
+  <div class="section-head">
+    <h2 class="section-title reveal" id="ba-t">Avant, <em>après.</em></h2>
+    <p class="section-intro reveal">Rue de Heyrault, Boulogne-Billancourt : 62 m² entièrement rénovés, cuisine ouverte sur double séjour. Faites glisser pour voir la transformation.</p>
+  </div>
+  <div class="ba-frame reveal" data-ba style="aspect-ratio:{{BA_W}}/{{BA_H}};--ar:{{BA_AR}}">
+    <img class="ba-img" src="/img/ba-after-2000.webp" alt="Après travaux : cuisine ouverte et double séjour" loading="lazy" decoding="async">
+    <div class="ba-before" data-ba-before><img class="ba-img" src="/img/ba-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async"></div>
+    <div class="ba-handle" data-ba-handle><span>Glisser</span></div>
+    <p class="ba-tag l">Avant</p><p class="ba-tag r">Après</p>
+    <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après" data-ba-range>
+  </div>
+  <p class="ba-link reveal"><a class="text-link" href="/projets/boulogne-rue-de-heyrault/">Voir le projet <span aria-hidden="true">→</span></a></p>
 </section>
 
 <section class="projects" id="projets" aria-labelledby="projets-t">
@@ -492,6 +512,29 @@ LD_BUSINESS = {
     "founder": {"@type": "Person", "name": NAME, "jobTitle": "Architecte DPLG"},
     "knowsAbout": ["Rénovation d'appartement", "Architecture d'intérieur", "Rénovation énergétique", "Direction de travaux"],
 }
+
+def before_after():
+    """Cut the Heyrault before/after montage into two equal photos for the slider."""
+    from PIL import Image
+    p = next(x for x in PROJECTS if x["slug"] == "boulogne-rue-de-heyrault")
+    it = next(i for i in p["items"] if i["idx"] == 1)
+    im = Image.open(SITE / "img" / f"{it['file']}-2000.webp").convert("RGB")
+    w, h = im.size
+    left = im.crop((0, 0, round(.502 * w), round(.945 * h)))
+    right = im.crop((round(.512 * w), 0, w, round(.945 * h)))
+    right = right.resize(left.size, Image.LANCZOS)
+    left.save(SITE / "img" / "ba-before-2000.webp", "WEBP", quality=88, method=6)
+    right.save(SITE / "img" / "ba-after-2000.webp", "WEBP", quality=88, method=6)
+    return left.size
+
+
+BA_W, BA_H = before_after()
+places = []
+for p in PROJECTS:
+    if p["place"] not in places:
+        places.append(p["place"])
+MARQUEE = "".join(f"<span>{E(x)}</span><i>✦</i>" for x in places)
+home_body = home_body.replace("{MARQUEE}", MARQUEE).replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).replace("{BA_AR}", f"{BA_W / BA_H:.4f}")
 
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
