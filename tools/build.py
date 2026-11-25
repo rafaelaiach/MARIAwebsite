@@ -570,7 +570,11 @@ def before_after():
     return left.size
 
 
-BA_W, BA_H = before_after()
+before_after()
+import subprocess, sys as _sys
+subprocess.run([_sys.executable, str(ROOT / "tools" / "align_ba.py")], check=True)  # align on the back wall
+from PIL import Image as _Image
+BA_W, BA_H = _Image.open(SITE / "img" / "ba-after-2000.webp").size
 home_body = home_body.replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).replace("{BA_AR}", f"{BA_W / BA_H:.4f}")
 
 write("/", layout(
