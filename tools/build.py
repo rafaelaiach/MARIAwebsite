@@ -103,9 +103,12 @@ GARDENS = [
          summary="Une cour spacieuse et secrète, pensée en plusieurs recoins : bacs, grimpantes, lumière."),
 ]
 
-HERO = [  # (project slug, item index) : the opening slideshow — bright, sharp, wide photos only
-    ("paris-7-rue-oudinot", 1), ("vanves-allee-du-progres", 12), ("paris-7-rue-oudinot-studette", 0),
-    ("paris-14-rue-ledion", 3), ("paris-7-rue-oudinot", 2), ("paris-15-rue-de-l-amiral-roussin", 0),
+HERO = [  # (project slug, item index or "cover") : the opening slideshow.
+    # First the four first works shown on her Wix site (Oudinot, Lacretelle, Amiral Roussin 6e, Heyrault),
+    # then two more bright, sharp photos.
+    ("paris-7-rue-oudinot", 1), ("paris-15-rue-lacretelle", 11),
+    ("paris-15-rue-de-l-amiral-roussin-sous-les-toits", 8), ("boulogne-rue-de-heyrault", "cover"),
+    ("vanves-allee-du-progres", 12), ("paris-7-rue-oudinot-studette", 0),
 ]
 
 SKIP_CAPTION = {"", ".", "wix issy copy", "boulogne 3", "boulogne 4", "vu", "test"}
@@ -200,10 +203,9 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
 <meta property="og:description" content="{E(description_text)}">
 <meta property="og:url" content="{canonical}">
 {f'<meta property="og:image" content="{og_image}">' if og_image else ''}
-<meta name="theme-color" content="#f3f0ea">
+<meta name="theme-color" content="#f4efe6">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/fonts/CormorantGaramond-normal-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/Manrope-normal-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/style.css?v={ASSET_V}">
 {ld}
@@ -352,7 +354,7 @@ def card(p, i, base="/projets/"):
       <p class="card-place">{E(p['place'])}<span>{E(p['year'])}</span></p>
       <h3 class="card-name">{E(p['name'])}</h3>
       <p class="card-sum">{E(p['summary'])}</p>
-      <p class="card-facts">{E(p['surface'])}{' · ' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
+      <p class="card-facts">{E(p['surface'])}{'<span class="kind-dot"></span>' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
     </div>
   </a>
 </li>"""
@@ -369,7 +371,7 @@ def row(p, i):
 hero_slides = []
 for n, (slug, idx) in enumerate(HERO):
     p = next(x for x in PROJECTS if x["slug"] == slug)
-    it = next(i for i in p["items"] if i["idx"] == idx)
+    it = p["cover_item"] if idx == "cover" else next(i for i in p["items"] if i["idx"] == idx)
     hero_slides.append(
         f'<a class="slide{" is-on" if n == 0 else ""}" href="/projets/{slug}/" data-slide data-label="{E(p["name"])} · {E(p["place"])}" tabindex="{0 if n == 0 else -1}">'
         + img(it, "100vw", eager=n == 0, alt=f"{p['name']}, {p['place']}") + "</a>")
