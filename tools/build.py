@@ -558,7 +558,7 @@ home_body = home_body.replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).
 
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
-    description_text="Maria Aiach, architecte DPLG à Paris 15e : rénovation d'appartements clé en main, du plan idéal à la remise des clés. Studios, familles, cabinets.",
+    description_text="Maria Aiach, architecte DPLG à Paris 15e : rénovation d'appartements clé en main, du plan idéal à la remise des clés. Des studios aux grands appartements familiaux.",
     path="/", body=home_body, cls="home over-dark", jsonld=LD_BUSINESS, image=PROJECTS[0]["cover_item"]["file"]))
 
 # ---- project pages
