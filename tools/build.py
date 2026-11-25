@@ -103,7 +103,7 @@ GARDENS = [
          summary="Une cour spacieuse et secrète, pensée en plusieurs recoins : bacs, grimpantes, lumière."),
 ]
 
-HERO = [  # (project slug, item index or "cover") : the opening slideshow.
+HERO = [  # (project slug, item index) : the opening slideshow.
     # Chosen only on how attractive the photo is full screen: light, space, finishes.
     # Rue Oudinot's large living room always first (asked by Raf on 2026-11-25).
     ("paris-7-rue-oudinot", 1), ("paris-14-rue-ledion", 3), ("vanves-allee-du-progres", 12),
@@ -202,10 +202,10 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
 <meta property="og:description" content="{E(description_text)}">
 <meta property="og:url" content="{canonical}">
 {f'<meta property="og:image" content="{og_image}">' if og_image else ''}
-<meta name="theme-color" content="#f3efe8">
+<meta name="theme-color" content="#f3f0ea">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/fonts/Geist-variable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/GeistMono-variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/CormorantGaramond-normal-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/Manrope-normal-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/style.css?v={ASSET_V}">
 {ld}
@@ -236,7 +236,6 @@ def layout(*, title, description_text, path, body, cls="", jsonld=None, image=No
   <button class="lb-next" type="button" data-lb-next aria-label="Photo suivante"><span aria-hidden="true">→</span></button>
   <p class="lb-count" data-lb-count></p>
 </div>
-<a class="float-cta" href="/#contact" data-float-cta><span class="float-dot" aria-hidden="true"></span>Parler de mon projet</a>
 <script src="/assets/site.js?v={ASSET_V}" defer></script>
 </body>
 </html>
@@ -347,16 +346,15 @@ def write(path, text):
 
 def card(p, i, base="/projets/"):
     c = p["cover_item"]
-    num = f"{i + 1:02d}"
     pic = img(c, "(max-width: 760px) 92vw, (max-width: 1200px) 46vw, 30vw", vt=f"c-{p['slug']}", alt=f"{p['name']}, {p['place']}") if c else ""
     return f"""<li class="card reveal" data-kind="{p.get('kind','')}" style="--i:{i % 3}">
   <a href="{base}{p['slug']}/" data-preview="/img/{c['file']}-1000.webp" >
     <div class="card-media">{pic}</div>
     <div class="card-text">
-      <p class="card-place"><span class="card-num">{num}</span>{E(p['place'])}<span>{E(p['year'])}</span></p>
+      <p class="card-place">{E(p['place'])}<span>{E(p['year'])}</span></p>
       <h3 class="card-name">{E(p['name'])}</h3>
       <p class="card-sum">{E(p['summary'])}</p>
-      <p class="card-facts">{E(p['surface'])}{'<span class="kind-dot"></span>' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
+      <p class="card-facts">{E(p['surface'])}{' · ' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
     </div>
   </a>
 </li>"""
@@ -373,7 +371,7 @@ def row(p, i):
 hero_slides = []
 for n, (slug, idx) in enumerate(HERO):
     p = next(x for x in PROJECTS if x["slug"] == slug)
-    it = p["cover_item"] if idx == "cover" else next(i for i in p["items"] if i["idx"] == idx)
+    it = next(i for i in p["items"] if i["idx"] == idx)
     hero_slides.append(
         f'<a class="slide{" is-on" if n == 0 else ""}" href="/projets/{slug}/" data-slide data-label="{E(p["name"])} · {E(p["place"])}" tabindex="{0 if n == 0 else -1}">'
         + img(it, "100vw", eager=n == 0, alt=f"{p['name']}, {p['place']}") + "</a>")
@@ -398,8 +396,6 @@ home_body = f"""
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-track">{{MARQUEE}}{{MARQUEE}}</div></div>
-
 <section class="intro wrap" id="intro">
   <p class="eyebrow reveal">L'atelier</p>
   <p class="statement reveal">Je conçois et je mène la rénovation de votre appartement, <em>clé en main</em> : du plan idéal au choix des matériaux, de la lumière aux placards sur mesure, jusqu'à la remise des clés.</p>
@@ -418,8 +414,8 @@ home_body = f"""
   </div>
   <div class="ba-frame reveal" data-ba style="aspect-ratio:{{BA_W}}/{{BA_H}};--ar:{{BA_AR}}">
     <img class="ba-img" src="/img/ba-after-2000.webp" alt="Après travaux : cuisine ouverte et double séjour" loading="lazy" decoding="async">
-    <div class="ba-before" data-ba-before><img class="ba-img" src="/img/ba-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async"></div>
-    <div class="ba-handle" data-ba-handle><span>Glisser</span></div>
+    <div class="ba-before"><img class="ba-img" src="/img/ba-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async"></div>
+    <div class="ba-handle"><span>Glisser</span></div>
     <p class="ba-tag l">Avant</p><p class="ba-tag r">Après</p>
     <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après" data-ba-range>
   </div>
@@ -521,20 +517,14 @@ def before_after():
     im = Image.open(SITE / "img" / f"{it['file']}-2000.webp").convert("RGB")
     w, h = im.size
     left = im.crop((0, 0, round(.502 * w), round(.945 * h)))
-    right = im.crop((round(.512 * w), 0, w, round(.945 * h)))
-    right = right.resize(left.size, Image.LANCZOS)
+    right = im.crop((round(.512 * w), 0, w, round(.945 * h))).resize(left.size, Image.LANCZOS)
     left.save(SITE / "img" / "ba-before-2000.webp", "WEBP", quality=88, method=6)
     right.save(SITE / "img" / "ba-after-2000.webp", "WEBP", quality=88, method=6)
     return left.size
 
 
 BA_W, BA_H = before_after()
-places = []
-for p in PROJECTS:
-    if p["place"] not in places:
-        places.append(p["place"])
-MARQUEE = "".join(f"<span>{E(x)}</span><i>✦</i>" for x in places)
-home_body = home_body.replace("{MARQUEE}", MARQUEE).replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).replace("{BA_AR}", f"{BA_W / BA_H:.4f}")
+home_body = home_body.replace("{BA_W}", str(BA_W)).replace("{BA_H}", str(BA_H)).replace("{BA_AR}", f"{BA_W / BA_H:.4f}")
 
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
