@@ -192,30 +192,35 @@ document.querySelectorAll('[data-ba]').forEach((frame) => {
   document.querySelectorAll('[data-filter]').forEach((c) => c.addEventListener('click', () => showAll(false)));
 })();
 
-/* before/after tabs: swap the pair shown in the slider */
+/* before/after deck: the pair under the mouse opens; the split follows the mouse */
 (() => {
-  const frame = document.querySelector('[data-ba]');
-  const tabs = [...document.querySelectorAll('[data-ba-tab]')];
-  if (!frame || !tabs.length) return;
-  const after = frame.querySelector('[data-ba-after]'), before = frame.querySelector('[data-ba-before]');
-  const range = frame.querySelector('[data-ba-range]'), link = document.querySelector('[data-ba-link]');
-  tabs.forEach((tab) => {
-    const f = tab.dataset.file;
-    [new Image().src = `/img/${f}-after-2000.webp`, new Image().src = `/img/${f}-before-2000.webp`];
-    tab.addEventListener('click', () => {
-      if (tab.classList.contains('is-on')) return;
-      tabs.forEach((t) => { const on = t === tab; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on); });
-      frame.classList.add('is-swapping');
-      setTimeout(() => {
-        after.src = `/img/${f}-after-2000.webp`; before.src = `/img/${f}-before-2000.webp`;
-        const w = +tab.dataset.w, h = +tab.dataset.h;
-        frame.style.aspectRatio = `${w}/${h}`; frame.style.setProperty('--ar', (w / h).toFixed(4));
-        range.value = 50; frame.style.setProperty('--pos', '50%');
-        if (link) link.href = tab.dataset.url;
-        Promise.all([after, before].map((im) => im.decode ? im.decode().catch(() => {}) : null)).then(() => frame.classList.remove('is-swapping'));
-      }, 280);
+  const deck = document.querySelector('[data-deck]');
+  if (!deck) return;
+  const panels = [...deck.querySelectorAll('[data-panel]')];
+  const count = document.querySelector('[data-deck-count]');
+  const wide = matchMedia('(min-width: 761px)');
+  let timer;
+  const open = (p) => { if (p.classList.contains('is-on')) return; panels.forEach((x) => x.classList.toggle('is-on', x === p)); };
+  panels.forEach((p) => {
+    const range = p.querySelector('[data-ba-range]');
+    const set = (v) => { range.value = v; p.style.setProperty('--pos', v + '%'); };
+    p.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse' || !wide.matches) return; clearTimeout(timer); timer = setTimeout(() => open(p), 90); });
+    p.addEventListener('pointerleave', () => clearTimeout(timer));
+    p.addEventListener('click', (e) => { if (!p.classList.contains('is-on') && !e.target.closest('a')) open(p); });
+    p.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse' || !wide.matches || !p.classList.contains('is-on')) return;
+      const r = p.getBoundingClientRect();
+      set(Math.max(0, Math.min(100, ((e.clientX - r.left) / r.width) * 100)).toFixed(1));
     });
+    range.addEventListener('focus', () => open(p));
   });
+  // phones: arrows and counter for the sideways carousel
+  const at = () => Math.round(deck.scrollLeft / (panels[0].offsetWidth + 12));
+  const go = (d) => { const i = Math.max(0, Math.min(panels.length - 1, at() + d)); deck.scrollTo({ left: panels[i].offsetLeft - deck.offsetLeft - (deck.clientWidth - panels[i].offsetWidth) / 2, behavior: 'smooth' }); };
+  const prev = document.querySelector('[data-deck-prev]'), next = document.querySelector('[data-deck-next]');
+  if (prev) prev.addEventListener('click', () => go(-1));
+  if (next) next.addEventListener('click', () => go(1));
+  deck.addEventListener('scroll', () => { if (count) count.textContent = `${at() + 1} / ${panels.length}`; }, { passive: true });
 })();
 
 /* phones: the call bar shows after the top photo and hides on the contact section */

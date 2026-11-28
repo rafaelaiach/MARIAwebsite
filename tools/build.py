@@ -494,20 +494,13 @@ home_body = f"""
   <div class="cursor-preview" aria-hidden="true" data-cursor><img alt=""></div>
 </section>
 
-<section class="ba wrap" aria-labelledby="ba-t">
+<section class="bad wrap" aria-labelledby="ba-t">
   <div class="section-head">
     <h2 class="section-title reveal" id="ba-t">Avant, <em>après.</em></h2>
-    <p class="section-intro reveal">Faites glisser pour voir la transformation.</p>
-    <div class="ba-tabs reveal" role="tablist" aria-label="Choisir un appartement">{{BA_TABS}}</div>
-    <p class="ba-link reveal"><a class="text-link" href="{{BA_FIRST_URL}}" data-ba-link>Voir le projet <span aria-hidden="true">→</span></a></p>
+    <p class="section-intro reveal">Passez sur une photo, puis faites glisser pour voir la transformation.</p>
   </div>
-  <div class="ba-frame reveal" data-ba style="aspect-ratio:{{BA_W}}/{{BA_H}};--ar:{{BA_AR}}">
-    <img class="ba-img" src="/img/{{BA_FIRST}}-after-2000.webp" alt="Après travaux" loading="lazy" decoding="async" data-ba-after>
-    <div class="ba-before"><img class="ba-img" src="/img/{{BA_FIRST}}-before-2000.webp" alt="Avant travaux" loading="lazy" decoding="async" data-ba-before></div>
-    <div class="ba-handle"><span>Glisser</span></div>
-    <p class="ba-tag l">Avant</p><p class="ba-tag r">Après</p>
-    <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après" data-ba-range>
-  </div>
+  <div class="bad-deck reveal" data-deck>{{BA_PANELS}}</div>
+  <div class="bad-nav" aria-hidden="true"><button type="button" data-deck-prev>←</button><span data-deck-count>1 / 7</span><button type="button" data-deck-next>→</button></div>
 </section>
 
 <section class="approach" id="approche" aria-labelledby="approche-t">
@@ -601,14 +594,18 @@ BA_W, BA_H = _Image.open(SITE / "img" / "ba-after-2000.webp").size
 subprocess.run([_sys.executable, str(ROOT / "tools" / "before_after.py")], check=True)  # the 3 other pairs
 BA_PAIRS = [{"key": "ba", "slug": "boulogne-rue-de-heyrault", "place": "Rue de Heyrault, Boulogne", "caption": "L'entrée et le séjour",
              "w": BA_W, "h": BA_H}] + [dict(x, key="ba-" + x["key"]) for x in json.loads((ROOT / "data" / "before_after.json").read_text("utf-8"))]
-BA_TABS = "".join(
-    f'<button type="button" role="tab" class="ba-tab{' is-on' if i == 0 else ''}" aria-selected="{'true' if i == 0 else 'false'}" '
-    f'data-ba-tab data-file="{x["key"]}" data-w="{x["w"]}" data-h="{x["h"]}" data-url="/projets/{x["slug"]}/">'
-    f'<span class="ba-tab-place">{E(x["place"])}</span><span class="ba-tab-cap">{E(x["caption"])}</span></button>'
+# every pair side by side: the one under the mouse opens to its full width, with its own slider
+BA_PANELS = "".join(
+    f'<figure class="bad-panel{' is-on' if i == 0 else ''}" data-ba data-panel style="--ar:{x["w"] / x["h"]:.4f};--i:{i}">'
+    f'<img class="ba-img" src="/img/{x["key"]}-after-2000.webp" width="{x["w"]}" height="{x["h"]}" alt="{E(x["place"])}, {E(x["caption"].lower())} après travaux" loading="lazy" decoding="async">'
+    f'<div class="ba-before"><img class="ba-img" src="/img/{x["key"]}-before-2000.webp" alt="{E(x["place"])}, avant travaux" loading="lazy" decoding="async"></div>'
+    f'<div class="ba-handle"><span>Glisser</span></div><p class="ba-tag l">Avant</p><p class="ba-tag r">Après</p>'
+    f'<input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparer avant et après : {E(x["place"])}, {E(x["caption"].lower())}" data-ba-range>'
+    f'<p class="bad-v" aria-hidden="true">{E(x["place"].split(",")[0])}</p>'
+    f'<figcaption class="bad-cap"><span class="bad-place">{E(x["place"])}</span><span class="bad-what">{E(x["caption"])}</span>'
+    f'<a class="bad-link" href="/projets/{x["slug"]}/">Voir le projet <span aria-hidden="true">→</span></a></figcaption></figure>'
     for i, x in enumerate(BA_PAIRS))
-first = BA_PAIRS[0]
-home_body = (home_body.replace("{BA_TABS}", BA_TABS).replace("{BA_FIRST}", first["key"]).replace("{BA_FIRST_URL}", f"/projets/{first['slug']}/")
-             .replace("{BA_W}", str(first["w"])).replace("{BA_H}", str(first["h"])).replace("{BA_AR}", f"{first['w'] / first['h']:.4f}"))
+home_body = home_body.replace("{BA_PANELS}", BA_PANELS).replace("1 / 7", f"1 / {len(BA_PAIRS)}")
 
 write("/", layout(
     title="Maria Aiach, architecte DPLG à Paris · Rénovation d'appartements",
