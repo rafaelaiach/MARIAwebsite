@@ -47,7 +47,7 @@ PROJECTS = [
          place="Paris 7e", surface="13 m² + terrasse", year="2020", duration="2 semaines", kind="studio", cover=0,
          summary="Une studette et sa terrasse de 10 m² sur les toits de Paris, rénovées en deux semaines."),
     dict(slug="paris-15-rue-lacretelle", key="copie-de-av-de-fontainebleau-94-krem", name="Rue Lacretelle",
-         place="Paris 15e", surface="50 m²", year="2021", duration="3 mois et demi", kind="complete", cover=8,
+         place="Paris 15e", surface="50 m²", year="2021", duration="3 mois et demi", kind="complete", cover=8, video=1.0,
          summary="Rénovation énergétique de qualité : chaque centimètre carré est exploité."),
     dict(slug="paris-15-rue-de-l-amiral-roussin", key="4e-projet", name="Rue de l'Amiral Roussin",
          place="Paris 15e", surface="78 m²", year="2013", duration="3 mois", kind="complete", cover=0,
@@ -88,6 +88,13 @@ PROJECTS = [
     dict(slug="fort-de-france-le-parc-de-redoute", key="copie-de-issy-les-moulineaux-92130", name="Le Parc de Redoute",
          place="Fort-de-France, Martinique", surface="51 m²", year="2023", duration="Plans et descriptif", kind="plans", cover=0,
          summary="Un plan repensé pour une retraite confortable : salle de bains, cuisine et chambre accessibles."),
+]
+# videos/<slug>.mp4 : video=<second of the frame used as its still image>; a project with no photos uses that still as cover
+PROJECTS[9:9] = [  # right after the 9 shown on the homepage
+    dict(slug="paris-18-rue-marcadet", key="", name="Rue Marcadet", place="Paris 18e", surface="", year="", duration="",
+         kind="complete", cover=0, video=25.0, summary="Rénovation d'appartement rue Marcadet, Paris 18e."),
+    dict(slug="paris-15-rue-eugene-gibez", key="", name="Rue Eugène Gibez", place="Paris 15e", surface="", year="", duration="",
+         kind="complete", cover=0, video=1.0, summary="Rénovation d'appartement rue Eugène Gibez, Paris 15e."),
 ]
 SHOWN = 9  # projects shown on the homepage before 'Voir tous les projets' (the first ones of PROJECTS)
 KINDS = {"complete": "Rénovation complète", "partial": "Rénovation partielle", "studio": "Studio", "plans": "Plans et conception"}
@@ -295,7 +302,7 @@ def meta_row(p):
         cells.append(("Chantier" if "mois" in p["duration"] or "semaine" in p["duration"] else "Mission", p["duration"]))
     if p.get("kind"):
         cells.append(("Type", KINDS[p["kind"]]))
-    return '<dl class="facts">' + "".join(f"<div><dt>{a}</dt><dd>{E(b)}</dd></div>" for a, b in cells) + "</dl>"
+    return '<dl class="facts">' + "".join(f"<div><dt>{a}</dt><dd>{E(b)}</dd></div>" for a, b in cells if b) + "</dl>"
 
 
 def gallery_html(items):
@@ -355,11 +362,44 @@ def cropped_cover(slug, it, box):
     return dict(it, file=name, w=im.width, h=im.height, lqip="data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode())
 
 
+def video_still(slug, second):
+    import base64, io, shutil
+    import cv2
+    from PIL import Image
+    (SITE / "video").mkdir(exist_ok=True)
+    src, dst = ROOT / "videos" / f"{slug}.mp4", SITE / "video" / f"{slug}.mp4"
+    if not dst.exists() or dst.stat().st_size != src.stat().st_size:
+        shutil.copy(src, dst)
+    cap = cv2.VideoCapture(str(src))
+    cap.set(cv2.CAP_PROP_POS_MSEC, second * 1000)
+    ok, frame = cap.read()
+    im = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    name = f"video-{slug}"
+    for width in (1000, 2000):
+        out = im if im.width <= width else im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+        out.save(SITE / "img" / f"{name}-{width}.webp", "WEBP", quality=88, method=6)
+    tiny = im.resize((24, max(1, round(im.height * 24 / im.width))))
+    buf = io.BytesIO(); tiny.save(buf, "WEBP", quality=40)
+    v = int(dst.stat().st_mtime) % 100000
+    return dict(idx=-1, file=name, w=im.width, h=im.height, cap="", plan=False, src=f"/video/{slug}.mp4?v={v}",
+                lqip="data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode())
+
+
+def video_html(p):
+    v = p.get("video_item")
+    if not v:
+        return ""
+    return (f'<figure class="g-video reveal"><video controls playsinline preload="none" width="{v["w"]}" height="{v["h"]}" '
+            f'poster="/img/{v["file"]}-1000.webp" style="aspect-ratio:{v["w"]}/{v["h"]}" aria-label="Vidéo : {E(p["name"])}, {E(p["place"])}">'
+            f'<source src="{v["src"]}" type="video/mp4"></video><figcaption>Visite en vidéo</figcaption></figure>')
+
+
 # ------------------------------------------------------------------ pages
 for p in PROJECTS:
     p["items"] = items_of(p["key"])
+    p["video_item"] = video_still(p["slug"], p["video"]) if p.get("video") is not None else None
     photos = [i for i in p["items"] if not i["plan"]] or p["items"]
-    p["cover_item"] = next((i for i in p["items"] if i["idx"] == p["cover"]), photos[0] if photos else None)
+    p["cover_item"] = next((i for i in p["items"] if i["idx"] == p["cover"]), photos[0] if photos else p["video_item"])
     if p.get("crop") and p["cover_item"]:
         p["cover_item"] = cropped_cover(p["slug"], p["cover_item"], p["crop"])
 for g in GARDENS:
@@ -383,7 +423,7 @@ def card(p, i, base="/projets/", extra=False):
       <p class="card-place">{E(p['place'])}<span>{E(p['year'])}</span></p>
       <h3 class="card-name">{E(p['name'])}</h3>
       <p class="card-sum">{E(p['summary'])}</p>
-      <p class="card-facts">{E(p['surface'])}{' · ' + E(KINDS[p['kind']]) if p.get('kind') else ''}</p>
+      <p class="card-facts">{' · '.join(E(x) for x in (p['surface'], KINDS.get(p.get('kind'), '')) if x)}</p>
     </div>
   </a>
 </li>"""
@@ -599,6 +639,7 @@ def detail_page(p, base, idx, collection, label):
     </div>
   </div>
   <section class="gallery wrap" aria-label="Photos" data-lb-group>
+    {video_html(p)}
     {gallery_html(p['items'])}
   </section>
   {plans_html(p['items'])}
@@ -615,7 +656,7 @@ def detail_page(p, base, idx, collection, label):
           "dateCreated": re.sub(r"\D.*", "", p["year"]) or None, "description": p["summary"], "locationCreated": p["place"]}
     write(f"{base}{p['slug']}/", layout(
         title=f"{p['name']}, {p['place']} · Maria Aiach, architecte",
-        description_text=f"{p['summary']} {p['surface']}, {p['year']}. Un projet de Maria Aiach, architecte DPLG à Paris.",
+        description_text=f"{p['summary']} {', '.join(x for x in (p['surface'], p['year']) if x)}{'. ' if p['surface'] or p['year'] else ''}Un projet de Maria Aiach, architecte DPLG à Paris.",
         path=f"{base}{p['slug']}/", body=body, cls="page-project over-dark", jsonld=ld, image=c["file"] if c else None))
 
 
