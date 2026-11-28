@@ -19,10 +19,13 @@ source = json.loads((ROOT / "data" / "source.json").read_text("utf-8"))
 GROUPS = {g["key"]: g for g in source["groups"]}
 
 # key, group, item index, project slug, place, caption
-PAIRS = [
-    ("lacretelle-cuisine", "copie-de-av-de-fontainebleau-94-krem", 5, "paris-15-rue-lacretelle", "Rue Lacretelle, Paris 15e", "La cuisine"),
+PAIRS = [  # best first; a 7th value "swap" = the 'after' photo is on the left of the montage
+    ("lacretelle-sdb-cuisine", "copie-de-av-de-fontainebleau-94-krem", 2, "paris-15-rue-lacretelle", "Rue Lacretelle, Paris 15e", "La salle de bains devient la cuisine"),
     ("stalingrad-sejour", "copie-de-rue-cotentin-75015", 6, "colombes-rue-de-stalingrad", "Rue de Stalingrad, Colombes", "Le séjour vu de l'entrée"),
+    ("versailles-cuisine", "5e-projet", 3, "paris-16-avenue-de-versailles", "Avenue de Versailles, Paris 16e", "La cuisine"),
+    ("lacretelle-entree", "copie-de-av-de-fontainebleau-94-krem", 1, "paris-15-rue-lacretelle", "Rue Lacretelle, Paris 15e", "L'entrée"),
     ("kremlin-sdb", "copie-de-rue-fleurus-75006", 3, "kremlin-bicetre-avenue-de-fontainebleau", "Le Kremlin-Bicêtre", "La salle de bains"),
+    ("lacretelle-cuisine", "copie-de-av-de-fontainebleau-94-krem", 5, "paris-15-rue-lacretelle", "Rue Lacretelle, Paris 15e", "La cuisine"),
 ]
 
 
@@ -82,17 +85,22 @@ def common_crop(before, after, M):
 # Reference points placed by hand on what did not move (in the full left/right halves):
 # window corners, bathtub corners, ceiling corner. Used when automatic matching fails.
 MANUAL = {
+    "lacretelle-sdb-cuisine": ([(462, 303), (599, 303), (462, 599)], [(462, 296), (584, 296), (462, 613)]),
+    "lacretelle-entree": ([(396, 522), (627, 522), (461, 569)], [(398, 530), (621, 530), (441, 584)]),
+    "versailles-cuisine": ([(208, 158), (459, 158), (208, 595)], [(212, 65), (499, 65), (212, 538)]),
     "lacretelle-cuisine": ([(500, 458), (585, 640)], [(509, 513), (588, 699)]),
     "stalingrad-sejour": ([(434, 493), (627, 493), (439, 643)], [(276, 457), (586, 452), (293, 590)]),
     "kremlin-sdb": ([(477, 906), (975, 1062), (462, 395)], [(407, 926), (918, 1111), (400, 506)]),
 }
 
 out = []
-for key, group, idx, slug, place, caption in PAIRS:
+for key, group, idx, slug, place, caption, *opt in PAIRS:
     it = GROUPS[group]["items"][idx]
     f = IMG / f"{images[it['uri']]['file']}-2000.webp"
     img = cv2.imread(str(f))
     b, a = split(img)
+    if "swap" in opt:
+        b, a = a, b
     M, n = align(b, a)
     if M is None and key in MANUAL:
         pb, pa = (np.float32(x) for x in MANUAL[key])

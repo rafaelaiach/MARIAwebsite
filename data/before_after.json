@@ -1,11 +1,11 @@
 [
  {
-  "key": "lacretelle-cuisine",
+  "key": "lacretelle-sdb-cuisine",
   "slug": "paris-15-rue-lacretelle",
   "place": "Rue Lacretelle, Paris 15e",
-  "caption": "La cuisine",
-  "w": 895,
-  "h": 1226,
+  "caption": "La salle de bains devient la cuisine",
+  "w": 879,
+  "h": 1173,
   "aligned": true
  },
  {
@@ -18,12 +18,39 @@
   "aligned": true
  },
  {
+  "key": "versailles-cuisine",
+  "slug": "paris-16-avenue-de-versailles",
+  "place": "Avenue de Versailles, Paris 16e",
+  "caption": "La cuisine",
+  "w": 938,
+  "h": 1312,
+  "aligned": true
+ },
+ {
+  "key": "lacretelle-entree",
+  "slug": "paris-15-rue-lacretelle",
+  "place": "Rue Lacretelle, Paris 15e",
+  "caption": "L'entrée",
+  "w": 946,
+  "h": 1238,
+  "aligned": true
+ },
+ {
   "key": "kremlin-sdb",
   "slug": "kremlin-bicetre-avenue-de-fontainebleau",
   "place": "Le Kremlin-Bicêtre",
   "caption": "La salle de bains",
   "w": 831,
   "h": 1118,
+  "aligned": true
+ },
+ {
+  "key": "lacretelle-cuisine",
+  "slug": "paris-15-rue-lacretelle",
+  "place": "Rue Lacretelle, Paris 15e",
+  "caption": "La cuisine",
+  "w": 895,
+  "h": 1226,
   "aligned": true
  }
 ]
